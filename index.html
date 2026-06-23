@@ -172,10 +172,10 @@
       </div>
       <div id="modalAlert" class="modal-alert"></div>
       <div id="formGrid" class="form-grid"></div>
-      <div class="modal-footer">
-        <button id="deleteBtn" class="btn-red" onclick="deleteCurrentRow()" style="display:none; margin-right:auto;">ลบ</button>
-        <button class="btn-gray" onclick="closeModal()">ยกเลิก</button>
+        <div class="modal-footer" style="justify-content:flex-start;">
         <button id="saveBtn" class="btn-primary" onclick="saveData()">บันทึก</button>
+        <button class="btn-gray" onclick="closeModal()">ยกเลิก</button>
+        <button id="deleteBtn" class="btn-red" onclick="deleteCurrentRow()" style="display:none; margin-left:auto;">ลบ</button>
       </div>
     </div>
   </div>
@@ -239,6 +239,10 @@
     </div>
   </div>
 
+  <div id="ctxMenu" style="display:none; position:fixed; z-index:9998; background:#fff; border:1px solid #ccc; border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,0.2); padding:4px; min-width:140px;">
+    <div id="ctxCopy" style="padding:9px 14px; cursor:pointer; font-size:14px; border-radius:6px;">📋 คัดลอกช่องนี้</div>
+  </div>
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://mwnuvqpnowdpkzxsiqhi.supabase.co';
@@ -539,6 +543,8 @@
             td.title='ดับเบิลคลิกเพื่อแก้ไขช่องนี้';
             td.ondblclick=()=>quickEditCell(row, f.key, f.header, row[f.key]||'');
           }
+            
+            td.oncontextmenu=(e)=>{ e.preventDefault(); showCtxMenu(e, row[f.key]||''); };
           tr.appendChild(td);
         });
         const tdAct=document.createElement('td'); tdAct.className='actions';
@@ -613,7 +619,7 @@
       if(!canEdit()){ showPopup('ไม่มีสิทธิ์','บัญชีนี้ดูข้อมูลเท่านั้น','error'); return; }
       hideModalAlert(); currentMode='edit'; editingId=row.id;
       document.getElementById('modalTitle').textContent='แก้ไขข้อมูล (ID '+row.id+')';
-      document.getElementById('deleteBtn').style.display='inline-block';
+      document.getElementById('deleteBtn').style.display = isAdmin() ? 'inline-block' : 'none';
       buildForm(row); document.getElementById('modalBackdrop').style.display='block';
     }
     function getFormPayload(){
@@ -860,6 +866,42 @@
       if(d.getTime() <= today.getTime()) return 'ยังไม่เติม';
       return cur;
     }
+
+    let ctxValue = '';
+    function showCtxMenu(e, value){
+      ctxValue = String(value||'');
+      const menu = document.getElementById('ctxMenu');
+      menu.style.display = 'block';
+      // วางเมนูตรงตำแหน่งเมาส์ (กันล้นขอบจอ)
+      const mw=150, mh=44;
+      let x=e.clientX, y=e.clientY;
+      if(x+mw > window.innerWidth) x = window.innerWidth - mw - 6;
+      if(y+mh > window.innerHeight) y = window.innerHeight - mh - 6;
+      menu.style.left = x+'px';
+      menu.style.top = y+'px';
+    }
+    function hideCtxMenu(){ document.getElementById('ctxMenu').style.display='none'; }
+
+    // ตั้งค่า event ตอนโหลดหน้า
+    document.addEventListener('click', hideCtxMenu);   // คลิกที่อื่น = ปิดเมนู
+    document.addEventListener('scroll', hideCtxMenu, true);
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const copyBtn = document.getElementById('ctxCopy');
+      copyBtn.onmouseover = ()=> copyBtn.style.background='#eef';
+      copyBtn.onmouseout  = ()=> copyBtn.style.background='';
+      copyBtn.onclick = async ()=>{
+        try {
+          await navigator.clipboard.writeText(ctxValue);
+          setStatus('คัดลอกแล้ว: ' + (ctxValue.length>40 ? ctxValue.slice(0,40)+'...' : ctxValue));
+        } catch(err) {
+          // fallback ถ้า clipboard API ใช้ไม่ได้
+          const ta=document.createElement('textarea'); ta.value=ctxValue; document.body.appendChild(ta);
+          ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          setStatus('คัดลอกแล้ว');
+        }
+        hideCtxMenu();
+      };
+    });
 
     async function syncExpiredStatus(){
       if(!canEdit()) return;
