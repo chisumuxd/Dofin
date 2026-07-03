@@ -4,86 +4,246 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Youtube Dofin</title></title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐷</text></svg>">
-  
+  <title>Dofin Premium</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGNpcmNsZSBjeD0iMzIiIGN5PSIzNCIgcj0iMjQiIGZpbGw9IiNmOWE4YzQiIHN0cm9rZT0iI2U4N2JhNiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTE1IDE0IGwzIDEyIGw5IC02IHoiIGZpbGw9IiNmOWE4YzQiIHN0cm9rZT0iI2U4N2JhNiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTQ5IDE0IGwtMyAxMiBsLTkgLTYgeiIgZmlsbD0iI2Y5YThjNCIgc3Ryb2tlPSIjZTg3YmE2IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjMxIiByPSIzLjIiIGZpbGw9IiM0YjJlMDAiLz48Y2lyY2xlIGN4PSI0MCIgY3k9IjMxIiByPSIzLjIiIGZpbGw9IiM0YjJlMDAiLz48ZWxsaXBzZSBjeD0iMzIiIGN5PSI0MiIgcng9IjExIiByeT0iOCIgZmlsbD0iI2YxOGZiNSIgc3Ryb2tlPSIjZTg3YmE2IiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIyOCIgY3k9IjQyIiByPSIyLjIiIGZpbGw9IiM4YTRhNjMiLz48Y2lyY2xlIGN4PSIzNiIgY3k9IjQyIiByPSIyLjIiIGZpbGw9IiM4YTRhNjMiLz48L3N2Zz4=">
+
   <style>
-    * { box-sizing: border-box; font-family: Arial, "Sarabun", sans-serif; }
-    body { margin: 0; background: #f4f6f8; color: #222; }
-    .container { width: 96vw; margin: 0 auto; padding: 18px; }
-    .card { background: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); margin-bottom: 16px; }
-    h1 { margin: 0 0 8px; font-size: 22px; color: #0f5132; }
-    input, select { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; background:#fff; }
-    input:focus, select:focus { outline: none; border-color: #198754; box-shadow: 0 0 0 3px rgba(25,135,84,0.15); }
-    button { border: none; border-radius: 10px; padding: 10px 15px; cursor: pointer; font-size: 14px; font-weight: 600; }
-    .btn-primary { background: #198754; color: white; }
-    .btn-blue { background: #0d6efd; color: white; }
-    .btn-red { background: #dc3545; color: white; }
-    .btn-gray { background: #6c757d; color: white; }
-    .btn-yellow { background:#ffc107; color:#222; }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'Sarabun',sans-serif;font-size:14px;
+      background:linear-gradient(135deg,#f3fbf5 0%,#eaf7ef 55%,#f1faf4 100%);
+      min-height:100vh; color:#2b3a2e;
+    }
+    body::after{
+      content:'🐷'; position:fixed; bottom:16px; right:22px;
+      font-size:44px; pointer-events:none; z-index:1; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+    }
+    .container{ max-width:1700px; margin:0 auto; padding:6px; position:relative; z-index:2; }
 
-    .login-wrap { max-width: 360px; margin: 12vh auto 0; }
-    .login-wrap .field { margin-bottom: 12px; }
-    .login-wrap label { display:block; font-size:13px; font-weight:600; margin-bottom:5px; }
-    .login-error { display:none; background:#f8d7da; color:#842029; padding:10px 12px; border-radius:10px; margin-bottom:12px; font-size:14px; white-space:pre-line; }
-    .login-error.show { display:block; }
+    /* ===== CARD ===== */
+    .card{
+      background:#ffffff; border-radius:22px;
+      margin:12px; padding:18px 20px;
+      box-shadow:0 6px 22px rgba(60,140,80,0.10);
+      border:2px solid #d7eede;
+    }
 
-    .user-badge { display:inline-block; padding:5px 10px; border-radius:999px; background:#e9f7ef; color:#0f5132; font-weight:700; font-size:13px; }
-    .role-badge { display:inline-block; padding:3px 8px; border-radius:999px; background:#e7f1ff; color:#084298; font-size:12px; font-weight:700; }
-    .live-dot { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#0f5132; }
-    .live-dot::before { content:''; width:9px; height:9px; border-radius:50%; background:#bbb; display:inline-block; }
-    .live-dot.on::before { background:#198754; box-shadow:0 0 0 3px rgba(25,135,84,0.2); }
-    .live-dot::after { content:'realtime'; }
+    /* ===== TOP BAR ===== */
+    .topbar{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      flex-wrap:wrap; gap:12px; margin-bottom:16px;
+    }
+    .topbar-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    #pageTitle{
+      font-size:24px; font-weight:800; color:#2f9e44; margin:0;
+      display:flex; align-items:center; gap:10px;
+    }
+    #pageTitle::before{ content:'🐷'; font-size:26px; }
+    .user-badge{
+      background:#fff3bf; color:#5c4400; border:2px solid #ffe066;
+      border-radius:16px; padding:3px 14px; font-size:13px; font-weight:800;
+    }
+    .role-badge{
+      background:#e7f1ff; color:#1971c2; border:2px solid #a5d8ff;
+      border-radius:16px; padding:3px 14px; font-size:13px; font-weight:800;
+    }
+    .live-dot{
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:13px; font-weight:700; color:#868e96;
+    }
+    .live-dot::before{ content:''; width:10px; height:10px; border-radius:50%; background:#ccc; }
+    .live-dot::after{ content:'offline'; }
+    .live-dot.on::before{ background:#22c55e; box-shadow:0 0 7px #22c55e99; }
+    .live-dot.on::after{ content:'realtime'; color:#2f9e44; }
 
-    .topbar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
-    .topbar-left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; min-width:200px; }
-    .topbar-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    /* ===== BUTTONS (pill 3D) ===== */
+    .btn-primary,.btn-yellow,.btn-gray,.btn-blue,.btn-red{
+      padding:9px 20px; border-radius:24px; border:none; cursor:pointer;
+      font-family:'Sarabun',sans-serif; font-size:14px; font-weight:800;
+      transition:transform .12s, box-shadow .12s; display:inline-block;
+    }
+    .btn-primary:active,.btn-yellow:active,.btn-gray:active,.btn-blue:active,.btn-red:active{
+      transform:translateY(2px);
+    }
+    .btn-yellow{ background:linear-gradient(180deg,#ffe066,#fcc419); color:#5c4400; box-shadow:0 4px 0 #e8a800; }
+    .btn-yellow:hover{ filter:brightness(1.04); }
+    .btn-yellow:active{ box-shadow:0 1px 0 #e8a800; }
+    .btn-blue{ background:linear-gradient(180deg,#4dabf7,#339af0); color:#fff; box-shadow:0 4px 0 #1971c2; }
+    .btn-blue:hover{ filter:brightness(1.04); }
+    .btn-blue:active{ box-shadow:0 1px 0 #1971c2; }
+    .btn-primary{ background:linear-gradient(180deg,#51cf66,#40c057); color:#fff; box-shadow:0 4px 0 #2f9e44; }
+    .btn-primary:hover{ filter:brightness(1.04); }
+    .btn-primary:active{ box-shadow:0 1px 0 #2f9e44; }
+    .btn-gray{ background:linear-gradient(180deg,#f1f3f5,#dee2e6); color:#495057; box-shadow:0 4px 0 #adb5bd; }
+    .btn-gray:hover{ filter:brightness(1.02); }
+    .btn-gray:active{ box-shadow:0 1px 0 #adb5bd; }
+    .btn-red{ background:linear-gradient(180deg,#ff8787,#fa5252); color:#fff; box-shadow:0 4px 0 #c92a2a; }
+    .btn-red:hover{ filter:brightness(1.04); }
+    .btn-red:active{ box-shadow:0 1px 0 #c92a2a; }
+    button:disabled{ opacity:0.6; cursor:not-allowed; transform:none !important; }
 
-    .search-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding-top:14px; border-top:1px solid #eef0f2; }
-    .search-input { flex:1; min-width:220px; }
-    .filter-group { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    .chk-label { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700; white-space:nowrap; color:#14532d; background:#eefaf2; padding:9px 12px; border-radius:10px; border:1px solid #cfe8d8; cursor:pointer; user-select:none; }
-    .chk-label input { width:auto; margin:0; transform:scale(1.1); }
-    .search-row input[type="date"] { width:auto; min-width:140px; }
+    /* ===== SUMMARY CARDS (สีจาก inline เดิม + เพิ่มไอคอน) ===== */
+    #summaryBar{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+    .summary-box{
+      position:relative; flex:1; min-width:150px; padding:18px 20px 16px;
+      border-radius:20px; text-align:center;
+      box-shadow:0 6px 16px rgba(60,90,40,0.08);
+      border:2px solid rgba(0,0,0,0.04);
+    }
+    .summary-num{ font-size:34px; font-weight:800; line-height:1.05; }
+    .summary-label{ font-size:15px; font-weight:700; margin-top:4px; }
+    .summary-box::after{
+      position:absolute; top:14px; right:16px; font-size:26px; line-height:1; opacity:0.9;
+    }
+    #summaryBar .summary-box:nth-child(1)::after{ content:'🏠'; }
+    #summaryBar .summary-box:nth-child(2)::after{ content:'✅'; }
+    #summaryBar .summary-box:nth-child(3)::after{ content:'❌'; }
+    #summaryBar .summary-box:nth-child(4)::after{ content:'💌'; }
 
-    .table-wrap { overflow:auto; border:1px solid #b7b7b7; background:#fff; max-height:74vh; border-radius:6px; }
-    table { width:100%; border-collapse:collapse; table-layout:fixed; min-width:1400px; font-size:12px; }
-    th, td {padding:3px 8px; border:1px solid #d4d4d4;vertical-align:middle; white-space:nowrap; line-height:1.4;height:42px; max-height:42px;overflow:hidden; text-overflow:ellipsis;}
-    th { background:#0f9d58; color:#fff; font-weight:700; position:sticky; top:0; z-index:2; text-align:center; border-color:#0b8043; }
-    tbody tr:nth-child(even) { background:#f8f9fa; }
-    tbody tr:hover { background:#e8f0fe; }
-    td.actions { white-space:nowrap; text-align:center; }
-    td.actions button { padding:3px 8px; font-size:11px; }
-    td[style*="background"] { font-weight:600; }
-    td.use-cell { white-space:normal !important; word-break:break-word; }
-    td.machine-cell { white-space:normal !important; word-break:break-word; }
-    .status-msg { margin-top:10px; font-size:13px; color:#666; min-height:18px; }
+    /* ===== SEARCH ROW ===== */
+    .search-row{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      border-top:2px dashed #ffe066;
+      margin:0 -20px; padding:16px 20px 4px;
+    }
+    .search-input{
+      padding:11px 18px; border-radius:24px;
+      border:2px solid #ffe066; background:#fffdf5;
+      font-family:'Sarabun',sans-serif; font-size:15px; color:#3a2c00;
+      outline:none; transition:border .2s; min-width:240px; flex:1;
+    }
+    .search-input:focus{ border-color:#fcc419; }
+    .filter-group{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .filter-group input[type=date]{
+      padding:9px 12px; border-radius:18px;
+      border:2px solid #ffe066; background:#fffdf5;
+      font-family:'Sarabun',sans-serif; font-size:14px; color:#3a2c00; outline:none;
+    }
+    .filter-group input[type=date]:focus{ border-color:#fcc419; }
+    .chk-label{
+      font-size:14px; color:#2f6b3a; font-weight:700;
+      display:flex; align-items:center; gap:6px; cursor:pointer;
+      background:#e8f7ec; border:2px solid #c3ebcf;
+      border-radius:18px; padding:7px 14px;
+    }
+    .chk-label input[type=checkbox]{ accent-color:#40c057; width:16px; height:16px; }
+    .status-msg{ padding:8px 0 0; font-size:13px; color:#7a8a7e; }
 
-    .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:50; padding:20px; overflow-y:auto; }
-    .modal { background:#fff; max-width:1000px; margin:30px auto; border-radius:16px; padding:22px; box-shadow:0 14px 36px rgba(0,0,0,0.22); }
-    .modal-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
-    .modal-title { font-size:20px; font-weight:700; color:#0f5132; }
-    .modal-alert { display:none; background:#f8d7da; color:#842029; border:1px solid #f1aeb5; padding:12px 14px; border-radius:12px; margin-bottom:14px; font-size:14px; white-space:pre-line; font-weight:600; }
-    .modal-alert.show { display:block; }
-    .form-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
-    .form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:5px; }
-    .hint-red { color:#d93025; font-weight:700; font-size:12px; margin-left:6px; }
-    .modal-footer { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; flex-wrap:wrap; }
+    /* ===== TABLE (หัวเขียว, fix ขนาดเดิม) ===== */
+    .table-wrap { overflow:auto; border:1px solid #b7b7b7; background:#fff; max-height:82vh; border-radius:6px; }
 
-    .popup-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:99; padding:20px; }
-    .popup-box { background:#fff; max-width:400px; margin:18vh auto 0; border-radius:18px; padding:24px; text-align:center; box-shadow:0 18px 45px rgba(0,0,0,0.28); }
-    .popup-icon { width:54px; height:54px; margin:0 auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; }
-    .popup-icon.success { background:#d1e7dd; color:#0f5132; }
-    .popup-icon.error { background:#f8d7da; color:#842029; }
-    .popup-title { font-size:19px; font-weight:800; margin-bottom:8px; }
-    .popup-msg { font-size:14px; color:#334155; white-space:pre-line; margin-bottom:18px; line-height:1.6; }
-    @media (max-width:700px){ .form-grid{ grid-template-columns:1fr; } }
-    
-    .summary-box { flex:1; min-width:120px; padding:12px 16px; border-radius:12px; text-align:center; }
-    .summary-num { font-size:26px; font-weight:800; line-height:1.1; }
-    .summary-label { font-size:13px; font-weight:600; margin-top:2px; }
-  
+    .table-wrap table{ border-collapse:collapse; table-layout:fixed; }
+    thead tr{
+      background:linear-gradient(180deg,#51cf66,#40c057);
+      position:sticky; top:0; z-index:10;
+    }
+    thead th{
+      padding:11px 10px; text-align:left; font-size:12.5px;
+      font-weight:800; color:#ffffff; white-space:nowrap;
+      border-right:1px solid rgba(255,255,255,0.18);
+    }
+    tbody tr{ border-bottom:1px solid #eef3ef; }
+    tbody tr:hover{ background:#f3fbf5 !important; }
+    td{
+      padding:0 10px; height:42px; max-height:42px;
+      font-size:12px; color:#2b3a2e; vertical-align:middle;
+      overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+      border-right:1px solid #f0f4f1;
+    }
+    td.machine-cell{ white-space:nowrap !important; overflow:hidden; text-overflow:ellipsis; }
+    td.editable{ cursor:pointer; }
+    td.editable:hover{ box-shadow:inset 0 0 0 2px rgba(252,196,25,0.5); }
+    td.actions{ white-space:nowrap; text-align:center; }
+    td.actions .btn-yellow{ padding:5px 16px; font-size:13px; box-shadow:0 3px 0 #e8a800; }
+    td.actions .btn-yellow:active{ box-shadow:0 1px 0 #e8a800; }
+
+    /* ===== MODAL ===== */
+    .modal-backdrop{
+      display:none; position:fixed; inset:0;
+      background:rgba(40,60,45,0.30); backdrop-filter:blur(3px); z-index:200;
+    }
+    .modal{
+      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      background:#fff; border-radius:22px; padding:24px;
+      width:min(96vw,640px); max-height:90vh; overflow-y:auto; z-index:201;
+      box-shadow:0 16px 48px rgba(40,80,50,0.25); border:2px solid #d7eede;
+    }
+    .modal-header{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:16px; gap:10px;
+    }
+    .modal-title{ font-size:18px; font-weight:800; color:#2f9e44; }
+    .modal-footer{ display:flex; gap:10px; margin-top:18px; }
+    .modal-alert{
+      display:none; background:#fff3bf; color:#5c4400;
+      border:2px solid #ffe066; border-radius:12px;
+      padding:9px 14px; font-size:13px; margin-bottom:12px; white-space:pre-line;
+    }
+    .modal-alert.show{ display:block; }
+
+    /* ===== FORM ===== */
+    .form-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .form-group{ display:flex; flex-direction:column; gap:4px; }
+    .form-group label{ font-size:12px; color:#2f6b3a; font-weight:700; }
+    .form-group input,.form-group select,.form-group textarea{
+      padding:9px 12px; border-radius:12px;
+      border:2px solid #d7eede; background:#fbfefb;
+      font-family:'Sarabun',sans-serif; font-size:14px; color:#2b3a2e; outline:none;
+    }
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{ border-color:#40c057; }
+    .hint-red{ font-size:10px; color:#c00; margin-left:4px; }
+
+    /* ===== POPUP ===== */
+    .popup-backdrop{
+      display:none; position:fixed; inset:0;
+      background:rgba(40,60,45,0.32); backdrop-filter:blur(3px); z-index:300;
+    }
+    .popup-box{
+      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      background:#fff; border-radius:22px; padding:28px 28px 22px;
+      width:min(96vw,460px); max-height:85vh; overflow-y:auto; z-index:301;
+      box-shadow:0 16px 48px rgba(40,80,50,0.25);
+      border:2px solid #d7eede; text-align:center;
+    }
+    .popup-icon{
+      width:52px; height:52px; border-radius:50%; font-size:26px;
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 14px; font-weight:800;
+    }
+    .popup-icon.success{ background:#d8f3df; color:#2f9e44; border:2px solid #69db7c; }
+    .popup-icon.error{ background:#ffe3e3; color:#e03131; border:2px solid #ff8787; }
+    .popup-title{ font-size:19px; font-weight:800; color:#2f9e44; margin-bottom:8px; }
+    .popup-msg{ font-size:14px; color:#3a4a3e; margin-bottom:18px; line-height:1.6; }
+
+    /* ===== LOGIN ===== */
+    .login-wrap{
+      max-width:380px; margin:70px auto; text-align:center;
+    }
+    .login-wrap::before{
+      content:'🐷'; font-size:56px; display:block; margin-bottom:14px;
+      animation:duckBob 1.6s ease-in-out infinite;
+    }
+    @keyframes duckBob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-9px); } }
+    .login-wrap h1{ font-size:23px; font-weight:800; color:#2f9e44; margin-bottom:20px; }
+    .login-error{
+      display:none; background:#ffe3e3; color:#c92a2a;
+      border:2px solid #ff8787; border-radius:12px;
+      padding:9px 14px; font-size:13px; margin-bottom:14px;
+      text-align:left; white-space:pre-line;
+    }
+    .login-error.show{ display:block; }
+    .field{ margin-bottom:14px; text-align:left; }
+    .field label{ display:block; font-size:13px; color:#2f6b3a; font-weight:700; margin-bottom:5px; }
+    .field input{
+      width:100%; padding:11px 16px; border-radius:14px;
+      border:2px solid #d7eede; background:#fbfefb;
+      font-family:'Sarabun',sans-serif; font-size:15px; color:#2b3a2e; outline:none;
+    }
+    .field input:focus{ border-color:#40c057; }
+
+    body { margin: 0; }
+    .container { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 8px !important; }
+
   </style>
 </head>
 <body>
@@ -116,11 +276,53 @@
             <button id="manageUsersBtn" class="btn-gray" style="display:none;" onclick="openUserModal()">จัดการผู้ใช้</button>
             <button id="auditBtn" class="btn-gray" style="display:none;" onclick="openAuditModal()">ประวัติ</button>
             <button id="addBtn" class="btn-blue" onclick="openAddModal()">+ เพิ่มข้อมูล</button>
-            <button class="btn-blue" onclick="loadAccounts()">รีเฟรช</button>
+            <button class="btn-gray" onclick="forceReload()" title="ล้าง cache แล้วโหลดใหม่ทั้งหมด">↻ โหลดใหม่</button>
             <button class="btn-gray" onclick="doLogout()">ออกจากระบบ</button>
           </div>
         </div>
-        
+        </style>
+
+        <div id="duckPond"></div>
+        <style>
+        #duckPond{
+    position:relative; height:92px; overflow:hidden; border-radius:14px; margin-bottom:10px;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 70' width='240' height='70'%3E%3Crect x='40' y='40' width='6' height='26' fill='%237a4a1e'/%3E%3Ccircle cx='43' cy='28' r='17' fill='%233f9d4f'/%3E%3Ccircle cx='30' cy='36' r='11' fill='%234fb866'/%3E%3Ccircle cx='56' cy='36' r='11' fill='%234fb866'/%3E%3Ccircle cx='43' cy='20' r='11' fill='%2357c46f'/%3E%3Crect x='117' y='46' width='6' height='20' fill='%23654321'/%3E%3Cpolygon points='120,8 104,34 136,34' fill='%232f8f43'/%3E%3Cpolygon points='120,20 102,46 138,46' fill='%23379a4d'/%3E%3Cpolygon points='120,30 100,56 140,56' fill='%233f9d4f'/%3E%3Crect x='196' y='48' width='5' height='18' fill='%237a4a1e'/%3E%3Ccircle cx='198' cy='42' r='12' fill='%234caf5e'/%3E%3Ccircle cx='189' cy='48' r='8' fill='%2357c46f'/%3E%3Ccircle cx='207' cy='48' r='8' fill='%2357c46f'/%3E%3C/svg%3E") repeat-x left top / 200px 58px,
+      linear-gradient(to bottom, #cdeafe 0, #cdeafe 60px, #6cb7e8 60px, #3f8fd0 100%);
+  }
+  #duckPond .pduck{ position:absolute; animation: pdSwim ease-in-out infinite; }
+  #duckPond .pbody{ position:relative; animation: pdBob 1.7s ease-in-out infinite; }
+  #duckPond .pbody svg{ display:block; animation: pdFlip ease-in-out infinite; }
+  #duckPond .prip{ position:absolute; left:50%; bottom:-5px; width:54px; height:10px; margin-left:-27px; border-radius:50%; background:rgba(255,255,255,.5); animation: pdRip 1.7s ease-in-out infinite; }
+  @keyframes pdSwim{ 0%{translate:calc(var(--x)*-1) 0;} 50%{translate:var(--x) 0;} 100%{translate:calc(var(--x)*-1) 0;} }
+  @keyframes pdBob{ 0%,100%{translate:0 0; rotate:-2deg;} 50%{translate:0 -4px; rotate:2deg;} }
+  @keyframes pdFlip{ 0%,50%{scale:var(--s) var(--s);} 50.01%,100%{scale:calc(var(--s)*-1) var(--s);} }
+  @keyframes pdRip{ 0%,100%{transform:scaleX(.7);opacity:.3;} 50%{transform:scaleX(1.15);opacity:.7;} }
+  @media (prefers-reduced-motion: reduce){ #duckPond *{ animation:none!important; } }
+</style>
+<script>
+(function(){
+  const pond=document.getElementById('duckPond'); if(!pond) return;
+  const DUCK=`<svg viewBox="0 0 70 50" width="50" height="36" xmlns="http://www.w3.org/2000/svg"><ellipse cx="28" cy="30" rx="20" ry="13" fill="#f9a8c4"/><path d="M41 12 l2 -8 l7 5 z" fill="#f18fb5"/><path d="M57 12 l-2 -8 l-7 5 z" fill="#f18fb5"/><circle cx="49" cy="20" r="11" fill="#f9a8c4"/><ellipse cx="58" cy="22" rx="5" ry="4" fill="#f18fb5" stroke="#e87ba6" stroke-width="1"/><circle cx="56.5" cy="22" r="1" fill="#8a4a63"/><circle cx="59.5" cy="22" r="1" fill="#8a4a63"/><circle cx="47" cy="18" r="1.7" fill="#4b2e00"/></svg>`;
+  // [left%, bottomPx, scale, travelPx, durSec, delaySec, opacity]
+  const ducks=[
+    [3,  6, .55, 60, 8,  0,    1],
+    [18, 9, .40, 40,10, -3,  .85],
+    [33, 3, .62, 75, 6, -1.5,  1],
+    [48,10, .38, 35,11, -5,   .8],
+    [63, 5, .50, 55, 7, -2,  .95],
+    [80, 8, .45, 45, 9, -6,  .85],
+  ];
+  pond.innerHTML = ducks.map(d=>`
+    <div class="pduck" style="left:${d[0]}%; bottom:${d[1]}px; --x:${d[3]}px; animation-duration:${d[4]}s; animation-delay:${d[5]}s;">
+      <div class="pbody" style="opacity:${d[6]}; animation-delay:${d[5]}s;">
+        <div class="prip"></div><span>${DUCK}</span>
+      </div>
+    </div>`).join('');
+  pond.querySelectorAll('.pbody svg').forEach((svg,i)=>{ svg.style.setProperty('--s',ducks[i][2]); svg.style.animationDuration=ducks[i][4]+'s'; svg.style.animationDelay=ducks[i][5]+'s'; });
+})();
+</script>
+
         <div id="summaryBar" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
           <div class="summary-box" style="background:#e7f1ff; color:#084298;">
             <div class="summary-num" id="sumTotal">-</div>
@@ -147,7 +349,7 @@
           </div>
           <input id="searchInput" class="search-input" type="text" placeholder="ค้นหาทั่วไป เช่น อีเมล, เครื่อง, เบอร์" oninput="applySearch()" onkeydown="if(event.key==='Enter')applySearch()">
           <div class="filter-group">
-            <label class="chk-label"><input id="chkEmptyHB" type="checkbox" onchange="applySearch()">หัวบ้านว่าง</label>
+            <button id="roomPageBtn" class="btn-primary" onclick="toggleRoomPage()">🏠 เบิกห้องว่าง</button>
             <label class="chk-label"><input id="chkUseDate" type="checkbox" onchange="applySearch()">ค้นจากวันที่ (Use 1-5)</label>
             <label class="chk-label"><input id="chkMachine" type="checkbox" onchange="applySearch()">ค้นจากเครื่อง</label>
             <button class="btn-gray" onclick="clearSearch()">ล้างผลค้นหา</button>
@@ -157,6 +359,7 @@
       </div>
 
       <div class="card">
+        <div id="topScroll" style="overflow-x:auto; overflow-y:hidden; border:1px solid #b7b7b7; border-bottom:none; border-radius:6px 6px 0 0;"><div style="height:1px;"></div></div>
         <div class="table-wrap">
           <table><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table>
         </div>
@@ -172,7 +375,7 @@
       </div>
       <div id="modalAlert" class="modal-alert"></div>
       <div id="formGrid" class="form-grid"></div>
-        <div class="modal-footer" style="justify-content:flex-start;">
+      <div class="modal-footer" style="justify-content:flex-start;">
         <button id="saveBtn" class="btn-primary" onclick="saveData()">บันทึก</button>
         <button class="btn-gray" onclick="closeModal()">ยกเลิก</button>
         <button id="deleteBtn" class="btn-red" onclick="deleteCurrentRow()" style="display:none; margin-left:auto;">ลบ</button>
@@ -215,7 +418,7 @@
   </div>
 
   <div id="auditModalBackdrop" class="modal-backdrop">
-    <div class="modal" style="max-width:1100px;">
+    <div class="modal" style="width:min(96vw,1180px); max-width:none;">
       <div class="modal-header">
         <div class="modal-title">ประวัติการใช้งาน (Audit Log)</div>
         <button class="btn-red" onclick="document.getElementById('auditModalBackdrop').style.display='none'">ปิด</button>
@@ -243,22 +446,36 @@
     <div id="ctxCopy" style="padding:9px 14px; cursor:pointer; font-size:14px; border-radius:6px;">📋 คัดลอกช่องนี้</div>
     <div id="ctxHistory" style="padding:9px 14px; cursor:pointer; font-size:14px; border-radius:6px;">🕒 ดูประวัติช่องนี้</div>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://mwnuvqpnowdpkzxsiqhi.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13bnV2cXBub3dkcGt6eHNpcWhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTMwODIsImV4cCI6MjA5Nzc2OTA4Mn0.cSgAB72Q__w2RWskRt6evSpwkiNsz3OYDlAvd6uKga8';
-    const LOGIN_DOMAIN = 'dofin.local';
+    const LOGIN_DOMAIN = 'duck.local';
 
-    const DROPDOWN_OPTIONS = { status: ['เติมโค้ดแล้ว', 'รอเติมโค้ด', 'ติดต่อไม่ได้', 'ยกเลิก', 'รอเช็ค', 'ปิดโปรไฟล์'] };
+    // คอลัมน์ที่ดึงจาก DB (ระบุชัด ไม่ใช้ * เพื่อลด egress)
+    const COLS = 'id,email,pass,use1,use2,use3,use4,use5,machine,contact,expire_date,status,credit,fill_date,apple_email,apple_pass,mail_birth,ios_verify,phone_owner,note,updated_at';
+    // cache key — เปลี่ยนเลขเวอร์ชันเมื่อ schema เปลี่ยน
+    const CACHE_KEY = 'duck_v1';
+
+    const DROPDOWN_OPTIONS = { status: ['เติมโค้ดแล้ว', 'ยังไม่เติม', 'ติดต่อไม่ได้', 'ปิดย้าย', 'ไนจีเรีย'] };
+    const STORE_OPTIONS = [];   // (ปิดใช้งาน) ระบบเลือกร้านถูกเอาออกแล้ว
+    const STORE_COLORS  = {};   // (ปิดใช้งาน)
+    function storeColor(s){ return STORE_COLORS[s] || '#6c757d'; }
+    // เลือกสีตัวอักษร (ดำ/ขาว) อัตโนมัติให้อ่านออกบนสีพื้น
+    function readableText(hex){
+      const h=String(hex||'').replace('#',''); if(h.length<6) return '#fff';
+      const r=parseInt(h.substr(0,2),16), g=parseInt(h.substr(2,2),16), b=parseInt(h.substr(4,2),16);
+      return ((0.299*r + 0.587*g + 0.114*b)/255) > 0.6 ? '#222' : '#fff';
+    }
     let machineOptions = [];
     let userNameMap = {};
-    
+
     const GIFT_CARD_URL = 'https://chisumuxd.github.io/DofinApple/';
     function openGiftCard(){
-      window.open(GIFT_CARD_URL, 'https://chisumuxd.github.io/DofinApple/');   // เปิดแท็บใหม่
+      window.open(GIFT_CARD_URL, '_blank');
     }
-    
+
     function getOptionsFor(key){
       if(key === 'machine') return (machineOptions && machineOptions.length) ? machineOptions : null;
       return DROPDOWN_OPTIONS[key] || null;
@@ -273,6 +490,7 @@
       { key:'use4', header:'Use 4' },
       { key:'use5', header:'Use 5' },
       { key:'machine', header:'เครื่อง' },
+      { key:'contact', header:'เบอร์ลูกค้า' },
       { key:'expire_date', header:'หมดอายุ', yearHint:true },
       { key:'status', header:'สถานะ' },
       { key:'credit', header:'เครดิต' },
@@ -294,13 +512,14 @@
       { key:'use4', header:'Use 4', dateUser:true, width:140},
       { key:'use5', header:'Use 5', dateUser:true, width:140},
       { key:'machine', header:'เครื่อง', width:110},
+      { key:'contact', header:'เบอร์ลูกค้า', width:120},
       { key:'expire_date', header:'หมดอายุ', dateExpire:true, width:90},
       { key:'status', header:'สถานะ', width:100},
       { key:'credit', header:'เครดิต', width:60},
       { key:'fill_date', header:'เติม Gift ล่าสุด', width:100},
       { key:'apple_email', header:'Email Apple ID', width:240},
       { key:'apple_pass', header:'Pass Apple ID', width:130},
-      { key:'mail_birth', header:'วันเกิดเมล',width:100},
+      { key:'mail_birth', header:'วันเกิดเมล', width:100},
       { key:'ios_verify', header:'เบอร์ยืนยัน IOS', width:120},
       { key:'phone_owner', header:'เจ้าของเบอร์', width:100},
       { key:'note', header:'หมายเหตุ', width:200}
@@ -311,6 +530,11 @@
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let currentUser = null, accountsRows = [], realtimeChannel = null, isExpiredPage = false;
     let currentMode = 'edit', editingId = null, popupCb = null;
+    let syncing = false, lastAutoSync = 0, autoSyncTimer = null;
+    const recentlySaved = new Map();   // id -> เวลาที่เราบันทึกเอง (กัน render ซ้ำตอน realtime เด้งกลับ)
+    function markSaved(id){ if(id!=null) recentlySaved.set(id, Date.now()); }
+    const AUTO_SYNC_MIN_GAP = 15000;          // กันซิงก์ถี่เกิน (15 วิ)
+    const AUTO_SYNC_INTERVAL = 5 * 60 * 1000; // ซิงก์สำรองทุก 5 นาที
 
     window.onload = async function () {
       const { data } = await sb.auth.getSession();
@@ -322,6 +546,7 @@
     function setLoginError(m){ const el=document.getElementById('loginError'); if(!m){el.className='login-error';el.textContent='';return;} el.textContent=m; el.className='login-error show'; }
     function setStatus(m){ document.getElementById('statusMsg').textContent = m || ''; }
     function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
     function updateSummary(){
       const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
       let total=accountsRows.length, expired=0, empty=0;
@@ -342,6 +567,7 @@
       document.getElementById('popupIcon').textContent = type==='error'?'!':'✓';
       document.getElementById('popupTitle').textContent = title;
       document.getElementById('popupMsg').textContent = msg || '';
+      document.getElementById('popupMsg').style.whiteSpace = 'pre-line';
       popupCb = typeof cb==='function'?cb:null;
       document.getElementById('popupBackdrop').style.display='block';
     }
@@ -377,6 +603,101 @@
       });
     }
 
+    // แยกค่าช่อง Use เป็น { ร้าน, ชื่อ, วันที่ } — ดึงวันที่ท้ายแม้ไม่มีช่องว่างคั่น
+    function parseUseValue(value){
+      let head = String(value||'').trim(), date = '';
+      const m = head.match(/^(.*?)\s*(\d{1,2}\/\d{1,2}\/\d{2,4})\s*$/);
+      if(m){ head = m[1].trim(); date = m[2]; }
+      let store = '';
+      for(const s of STORE_OPTIONS){
+        if(head.toLowerCase() === s.toLowerCase()){ store = s; head = ''; break; }
+        if(head.toLowerCase().startsWith(s.toLowerCase()+' ')){ store = s; head = head.slice(s.length).trim(); break; }
+      }
+      return { store, name: head, date };
+    }
+
+    // ประกอบกลับเป็นสตริงเดียว: "ร้าน ชื่อ วันที่"
+    function joinUseValue(store, name, date){
+      const parts = [];
+      if(store) parts.push(store);
+      if(name)  parts.push(name);
+      let res = parts.join(' ');
+      if(date)  res = (res ? res + ' ' : '') + date;
+      return res.trim();
+    }
+
+    // สร้าง HTML ช่อง Use แบบ "ป้ายร้าน + ชื่อ" บรรทัดบน, วันที่บรรทัดล่าง
+    function useCellHtml(value){
+      const { store, name:head, date } = parseUseValue(value);
+      let html = '<div style="display:flex;align-items:center;gap:3px;flex-wrap:nowrap;line-height:1.25;overflow:hidden;">';
+      if(store){ const bg=storeColor(store); html += '<span style="flex:none;background:'+bg+';color:'+readableText(bg)+';font-size:9px;font-weight:bold;padding:1px 5px;border-radius:8px;">'+escapeHtml(store)+'</span>'; }
+      if(head)  html += '<span style="font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">'+escapeHtml(head)+'</span>';
+      html += '</div>';
+      if(date)  html += '<div style="font-size:11px;color:rgba(0,0,0,0.6);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">('+escapeHtml(date)+')</div>';
+      return html;
+    }
+
+    // กล่องแก้ไขช่อง Use — ปุ่มเลือกร้าน + ช่องชื่อ + ช่องวันที่ (แยกกัน)
+    function editUseValue(title, currentValue){
+      return new Promise(resolve=>{
+        const cur = parseUseValue(currentValue);
+        let selectedStore = cur.store;
+
+        const backdrop=document.createElement('div');
+        backdrop.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
+        const box=document.createElement('div');
+        box.style.cssText='background:#fff;max-width:420px;width:100%;margin:12vh auto 0;border-radius:18px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,0.28);';
+        const h=document.createElement('div'); h.textContent=title;
+        h.style.cssText='font-size:17px;font-weight:800;color:#0f5132;margin-bottom:12px;'; box.appendChild(h);
+
+        // ช่องชื่อ
+        const nameLabel=document.createElement('div');
+        nameLabel.textContent='ชื่อ:'; nameLabel.style.cssText='font-size:13px;font-weight:700;color:#555;margin-bottom:5px;';
+        box.appendChild(nameLabel);
+        const nameInput=document.createElement('input'); nameInput.type='text'; nameInput.value=cur.name; nameInput.placeholder='เช่น nannamonjam';
+        nameInput.style.cssText='width:100%;padding:11px 12px;border:1px solid #ccc;border-radius:10px;font-size:15px;margin-bottom:12px;';
+        box.appendChild(nameInput);
+
+        // ช่องวันที่ (แยก)
+        const dateLabel=document.createElement('div');
+        dateLabel.textContent='วันที่:'; dateLabel.style.cssText='font-size:13px;font-weight:700;color:#555;margin-bottom:5px;';
+        box.appendChild(dateLabel);
+        const dateInput=document.createElement('input'); dateInput.type='text'; dateInput.value=cur.date; dateInput.placeholder='เช่น 7/7/69';
+        dateInput.style.cssText='width:100%;padding:11px 12px;border:1px solid #ccc;border-radius:10px;font-size:15px;margin-bottom:6px;';
+        box.appendChild(dateInput);
+
+        const err=document.createElement('div');
+        err.style.cssText='font-size:12px;color:#d93025;font-weight:700;min-height:16px;margin-bottom:6px;';
+        box.appendChild(err);
+
+        function submit(){
+          const nm=nameInput.value.trim(), dt=dateInput.value.trim();
+          if((selectedStore || nm) && !dt){ err.textContent='⚠️ กรุณาใส่วันที่ (หรือกด "ลบค่า" ถ้าจะเว้นว่าง)'; dateInput.focus(); return; }
+          document.body.removeChild(backdrop);
+          resolve(joinUseValue(selectedStore, nm, dt));
+        }
+        nameInput.onkeydown=(e)=>{ if(e.key==='Enter') dateInput.focus(); };
+        dateInput.onkeydown=(e)=>{ if(e.key==='Enter') submit(); };
+
+        const footer=document.createElement('div'); footer.style.cssText='display:flex;gap:10px;margin-top:6px;';
+        const okBtn=document.createElement('button'); okBtn.textContent='ตกลง';
+        okBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#198754;color:#fff;font-weight:700;cursor:pointer;';
+        okBtn.onclick=submit;
+        const clearBtn=document.createElement('button'); clearBtn.textContent='เตะแล้ว';
+        clearBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#ffc107;color:#222;font-weight:700;cursor:pointer;';
+        clearBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve('ว่าง'); };
+        const cancelBtn=document.createElement('button'); cancelBtn.textContent='ยกเลิก';
+        cancelBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#6c757d;color:#fff;font-weight:700;cursor:pointer;';
+        cancelBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(null); };
+        footer.appendChild(okBtn); footer.appendChild(clearBtn); footer.appendChild(cancelBtn); box.appendChild(footer);
+
+        backdrop.appendChild(box);
+        backdrop.onclick=(e)=>{ if(e.target===backdrop){ document.body.removeChild(backdrop); resolve(null); } };
+        document.body.appendChild(backdrop);
+        setTimeout(()=>nameInput.focus(), 50);
+      });
+    }
+
     async function doLogin(){
       setLoginError('');
       const u=document.getElementById('loginUsername').value.trim();
@@ -401,33 +722,177 @@
       document.getElementById('manageUsersBtn').style.display = (currentUser.role==='ADMIN') ? 'inline-block' : 'none';
       document.getElementById('auditBtn').style.display = (currentUser.role==='ADMIN') ? 'inline-block' : 'none';
       await loadMachineOptions();
-      showApp(); await loadAccounts(); startRealtime();
+      showApp(); initTableHandlers(); await loadAccounts(); startRealtime(); startAutoSync();
     }
     function canEdit(){ return currentUser && (currentUser.role==='ADMIN' || currentUser.role==='EDITOR'); }
     function isAdmin(){ return currentUser && currentUser.role==='ADMIN'; }
 
-    async function doLogout(){ stopRealtime(); await sb.auth.signOut(); currentUser=null; accountsRows=[];
+    async function doLogout(){ stopRealtime(); stopAutoSync(); await sb.auth.signOut(); currentUser=null; accountsRows=[];
       document.getElementById('loginUsername').value=''; document.getElementById('loginPassword').value=''; showLogin(); }
 
+    // ===== CACHE + DELTA SYNC =====
+
+    function getMaxUpdatedAt(){
+      return accountsRows.reduce((m,r)=>((r.updated_at||'')>m ? r.updated_at : m), '1970-01-01T00:00:00Z');
+    }
+
+    // เซฟ cache แบบ debounce — รวบหลายการเปลี่ยนเป็นการเขียนครั้งเดียว
+    // กันการ JSON.stringify ทั้งก้อน (หลายพันแถว) ค้างหน้าจอตอนกดบันทึก
+    let cacheTimer = null, pendingLastSync = null;
+    function saveCache(lastSync){
+      pendingLastSync = lastSync;
+      if(cacheTimer) return;            // มีคิวเขียนอยู่แล้ว รอรอบเดียว
+      cacheTimer = setTimeout(flushCache, 1500);
+    }
+    function flushCache(){
+      if(cacheTimer){ clearTimeout(cacheTimer); cacheTimer = null; }
+      if(pendingLastSync === null) return;
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ rows: accountsRows, lastSync: pendingLastSync }));
+      } catch(e){ /* localStorage เต็ม — ข้ามไป */ }
+      pendingLastSync = null;
+    }
+    // เขียน cache ที่ค้างอยู่ทันทีก่อนปิด/สลับแท็บ (กันตกหล่น)
+    window.addEventListener('pagehide', flushCache);
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) flushCache(); });
+
     async function loadAccounts(){
-      setStatus('กำลังโหลดข้อมูล...');
+      setStatus('กำลังโหลด...');
+      let cache = null;
+      try { cache = JSON.parse(localStorage.getItem(CACHE_KEY)); } catch(e){}
+
+      if(cache && cache.rows && cache.lastSync){
+        accountsRows = cache.rows;
+        applySearch(); updateSummary();
+        setStatus('โหลดจาก cache แล้ว กำลังซิงก์...');
+        await deltaSync(cache.lastSync);
+      } else {
+        await fullLoad();
+      }
+    }
+
+  async function deltaSync(lastSync, opts){
+  opts = opts || {};
+  const detectDeletes = opts.detectDeletes !== false;
+  if(syncing) return;
+  syncing = true;
+  try {
+    // 1) ดึงเฉพาะแถวที่เปลี่ยนหลัง lastSync (เหมือนเดิม)
+    const PAGE=1000; let from=0; let changed=[];
+    while(true){
+      const { data, error } = await sb.from('accounts')
+        .select(COLS).gt('updated_at', lastSync)
+        .order('updated_at',{ascending:true}).order('id',{ascending:true})
+        .range(from, from+PAGE-1);
+      if(error){ setStatus('ซิงก์ไม่สำเร็จ: '+error.message); return; }
+      changed = changed.concat(data||[]);
+      if(!data || data.length < PAGE) break;
+      from += PAGE; if(from > 100000) break;
+    }
+
+    // 2) apply insert/update ก่อน — หลังจากนี้ accountsRows = ทุกแถวที่ยังอยู่จริง + แถวที่ถูกลบแต่ยังค้างในเครื่อง
+    let newest = lastSync;
+    (changed||[]).forEach(n=>{
+      const i = accountsRows.findIndex(r=>r.id===n.id);
+      if(i>=0) accountsRows[i]=n; else accountsRows.push(n);
+      if((n.updated_at||'') > newest) newest = n.updated_at;
+    });
+
+    // 3) ตรวจการลบแบบประหยัด: เทียบจำนวนแถวก่อน (egress แค่ตัวเลข ไม่ดึง row)
+    //    count ตรง = ไม่มีลบค้าง → ข้ามการดึง id ทั้งตาราง
+    //    count ไม่ตรง → ค่อยดึง id มา reconcile
+    if(detectDeletes){
+      const { count, error } = await sb.from('accounts')
+        .select('id', { count:'exact', head:true });   // head:true = ไม่ส่ง body กลับมา
+      if(!error && count !== null && count !== accountsRows.length){
+        const ids = await fetchAllIds();
+        if(ids){
+          const liveSet = new Set(ids.map(r=>r.id));
+          accountsRows = accountsRows.filter(r=>liveSet.has(r.id));
+        }
+      }
+    }
+
+    accountsRows.sort((a,b)=>a.id-b.id);
+    saveCache(newest);
+    applySearch(); updateSummary();
+    const msg = (changed && changed.length > 0)
+      ? 'ซิงก์แล้ว '+changed.length+' รายการ'
+      : 'ข้อมูลอัปเดตล่าสุุดแล้ว';
+    setStatus(msg+' (ทั้งหมด '+accountsRows.length+' แถว)');
+  } finally {
+    syncing = false;
+    }
+  }
+
+    // ซิงก์อัตโนมัติ — เบาและประหยัด egress
+    async function autoSync(reason){
+      if(!currentUser || document.hidden || syncing) return;
+      const now = Date.now();
+      if(now - lastAutoSync < AUTO_SYNC_MIN_GAP) return;   // กันถี่เกิน
+      lastAutoSync = now;
+      // กลับมาโฟกัส/ต่อเน็ตใหม่ = อาจพลาด event ลบ → ตรวจ id ด้วย
+      // poll ปกติ = realtime ส่งการลบให้แล้ว → ข้าม id เพื่อประหยัด
+      const detectDeletes = (reason === 'reconnect');
+      await deltaSync(getMaxUpdatedAt(), { detectDeletes });
+    }
+
+    function startAutoSync(){
+      stopAutoSync();
+      autoSyncTimer = setInterval(()=>autoSync('interval'), AUTO_SYNC_INTERVAL);
+    }
+    function stopAutoSync(){
+      if(autoSyncTimer){ clearInterval(autoSyncTimer); autoSyncTimer = null; }
+    }
+
+    // กลับมาโฟกัสที่แท็บ (พับจอ/สลับแท็บกลับมา) → ซิงก์เก็บตก
+    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) autoSync('visible'); });
+
+    async function fetchAllIds(){
       const PAGE=1000; let from=0; let all=[];
       while(true){
-        const { data, error } = await sb.from('accounts').select('*').order('id',{ascending:true}).range(from, from+PAGE-1);
-        if(error){ setStatus('โหลดข้อมูลไม่สำเร็จ: '+error.message); return; }
+        const { data, error } = await sb.from('accounts').select('id')
+          .order('id',{ascending:true}).range(from, from+PAGE-1);
+        if(error) return null;   // error → คืน null เพื่อข้ามการลบ (ปลอดภัยกว่าลบผิด)
+        all = all.concat(data||[]);
+        if(!data || data.length < PAGE) break;
+        from += PAGE; if(from > 100000) break;
+      }
+      return all;
+    }
+
+    async function fullLoad(){
+      const PAGE=1000; let from=0; let all=[];
+      while(true){
+        const { data, error } = await sb.from('accounts').select(COLS)
+          .order('id',{ascending:true}).range(from, from+PAGE-1);
+        if(error){ setStatus('โหลดไม่สำเร็จ: '+error.message); return; }
         all = all.concat(data||[]);
         if(!data || data.length < PAGE) break;
         from += PAGE; if(from > 100000) break;
       }
       accountsRows = all;
-      applySearch();
-      setStatus('โหลดข้อมูลแล้ว '+accountsRows.length+' แถว');
-      updateSummary();
-      syncExpiredStatus();
+      const hasUpdatedAt = all.length === 0 || 'updated_at' in all[0];
+      if(hasUpdatedAt){
+        saveCache(getMaxUpdatedAt());
+      } else {
+        // updated_at ยังไม่มีใน DB — ทำงานปกติแต่ไม่ cache
+        localStorage.removeItem(CACHE_KEY);
+        setStatus('⚠️ ยังไม่มีคอลัมน์ updated_at — กรุณารัน SQL ก่อน จะโหลดใหม่ทุกครั้ง');
+      }
+      applySearch(); updateSummary();
+      if(hasUpdatedAt) setStatus('โหลดข้อมูลแล้ว '+accountsRows.length+' แถว');
     }
 
-   // ชื่อที่ไม่ให้เป็นตัวเลือกเครื่อง (เช่น operator/admin)
-      const MACHINE_EXCLUDE = ['Nu'];   // เพิ่มชื่ออื่นได้ เช่น ['Nu','Admin']
+    async function forceReload(){
+      localStorage.removeItem(CACHE_KEY);
+      setStatus('ล้าง cache แล้ว กำลังโหลดใหม่...');
+      await fullLoad();
+    }
+
+    // ===== /CACHE =====
+
+    const MACHINE_EXCLUDE = ['Nu'];
 
     async function loadMachineOptions(){
       const { data, error } = await sb.from('user_profiles').select('username,name').order('name',{ascending:true});
@@ -435,22 +900,32 @@
       const set = new Set();
       (data||[]).forEach(u=>{
         const n = String(u.name||'').trim();
-        if(n && !MACHINE_EXCLUDE.includes(n)) set.add(n);   // ← กรองชื่อที่ไม่ต้องการออก
-        if(u.username) userNameMap[u.username] = n || u.username;   // เก็บ map username -> name
+        if(n && !MACHINE_EXCLUDE.includes(n)) set.add(n);
+        if(u.username) userNameMap[u.username] = n || u.username;
       });
       machineOptions = Array.from(set);
     }
 
     function applySearch(){
+      if(isRoomPage){ renderRoomPage(); return; }
       const keyword=document.getElementById('searchInput').value.trim().toLowerCase();
       const chkMachine=document.getElementById('chkMachine').checked;
       const chkUseDate=document.getElementById('chkUseDate').checked;
-      const chkEmptyHB=document.getElementById('chkEmptyHB').checked;
       const dateStr=document.getElementById('searchDateInput').value;
       let selectedDate=null; if(dateStr){const p=dateStr.split('-'); selectedDate=new Date(+p[0],+p[1]-1,+p[2]);}
       const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-      const keywords=keyword?keyword.split(/\s+/).filter(Boolean):[];
 
+      const filterSig = JSON.stringify([keyword, dateStr, chkMachine, chkUseDate, isExpiredPage]);
+      const resetScroll = (filterSig !== lastFilterSig);
+      lastFilterSig = filterSig;
+
+      const hasFilter = !!(keyword || dateStr || isExpiredPage);
+      if(!hasFilter){
+        renderTable(accountsRows, { resetScroll });   // แสดงทั้งหมด — เบาเพราะ virtual scroll
+        return;
+      }
+
+      const keywords=keyword?keyword.split(/\s+/).filter(Boolean):[];
       const result=accountsRows.filter(row=>{
         if(keywords.length>0){
           const ok=keywords.every(w=>{
@@ -462,11 +937,10 @@
         }
         if(isExpiredPage){ const d=extractDate(row.expire_date); if(!d||d.getTime()>today.getTime()) return false; }
         if(selectedDate){ const d=extractDate(row.expire_date); if(!d||d.getTime()!==selectedDate.getTime()) return false; }
-        if(chkEmptyHB && !rowHasEmptyHB(row)) return false;
         return true;
       });
       if(isExpiredPage) result.sort((a,b)=>{const da=extractDate(a.expire_date),db=extractDate(b.expire_date);return (da?da.getTime():0)-(db?db.getTime():0);});
-      renderTable(result,{chkUseDate,keyword});
+      renderTable(result,{chkUseDate,keyword,resetScroll});
     }
 
     function rowSearchText(row){ return FORM_FIELDS.map(f=>row[f.key]||'').join(' ').toLowerCase(); }
@@ -481,21 +955,115 @@
     function clearSearch(){
       document.getElementById('searchInput').value=''; document.getElementById('searchDateInput').value='';
       document.getElementById('chkMachine').checked=false; document.getElementById('chkUseDate').checked=false;
-      document.getElementById('chkEmptyHB').checked=false;
       applySearch(); setStatus('ล้างผลค้นหาแล้ว');
     }
     function toggleExpiredPage(){
       isExpiredPage=!isExpiredPage;
       const btn=document.getElementById('expiredBtn'), title=document.getElementById('pageTitle');
       if(isExpiredPage){ btn.textContent='กลับหน้าหลัก'; btn.className='btn-gray'; title.textContent='รายการที่หมดอายุแล้ว'; }
-      else { btn.textContent='หมดอายุแล้ว'; btn.className='btn-red'; title.textContent='หัวบ้าน Duck Duck Premium'; }
+      else { btn.textContent='หมดอายุแล้ว'; btn.className='btn-red'; title.textContent='หัวบ้าน Dofin Premium'; }
       applySearch();
     }
 
-    function renderTable(rows,opts){
+        // ===== VIRTUAL SCROLL (วาดเฉพาะแถวที่มองเห็น) =====
+    const ROW_H = 42;   // ความสูงต่อแถว = ตรงกับ CSS (height:42px)
+    const VBUF  = 8;    // วาดเผื่อบน/ล่าง กันขอบว่างตอนสกรอลล์เร็ว
+    let vRows = [], vCtx = null, vScrollBound = false, vLastStart = -1, vLastEnd = -1;
+    let lastFilterSig = null;   // ลายเซ็นตัวกรองล่าสุด — ใช้ตัดสินว่าจะเด้งขึ้นบนไหม
+
+    function vGetWrap(){ const tb=document.getElementById('tableBody'); return tb ? tb.closest('.table-wrap') : null; }
+
+    function bindVScroll(){
+      const wrap = vGetWrap();
+      if(!wrap || vScrollBound) return;
+      vScrollBound = true;
+      let ticking = false;
+      wrap.addEventListener('scroll', ()=>{
+        if(ticking) return; ticking = true;
+        requestAnimationFrame(()=>{ ticking=false; renderWindow(); });
+      });
+      window.addEventListener('resize', ()=>{ if(vRows.length) renderWindow(); });
+    }
+
+    function buildVRow(row, idx){
+      if(vCtx && vCtx.mode==='room') return buildRoomRow(row, idx);
+      const { useTarget, editable } = vCtx;
+      const tr=document.createElement('tr');
+      tr._row = row;
+
+      const tdNo=document.createElement('td');
+      tdNo.textContent = idx+1;
+      tdNo.style.textAlign='center'; tdNo.style.color='#888';
+      tr.appendChild(tdNo);
+
+      DISPLAY_FIELDS.forEach(f=>{
+        const td=document.createElement('td');
+        td.dataset.fkey = f.key;
+        let value=row[f.key]||'';
+        if(useTarget&&USE_KEYS.includes(f.key)){ const d=extractDate(value); if(!d||d.getTime()!==useTarget.getTime()) value=''; }
+        if(f.key==='status'){ value = effectiveStatus(row); }
+        if(USE_KEYS.includes(f.key) && value){ td.innerHTML = useCellHtml(value); }
+        else { td.textContent=value; }
+        if(USE_KEYS.includes(f.key)) td.classList.add('use-cell');
+        else if(f.key==='machine') td.classList.add('machine-cell');
+        if(editable) td.classList.add('editable');
+        if(f.dateUser){ const c=dateColor(value,true); if(c) td.style.backgroundColor=c; }
+        else if(f.dateExpire){ const c=dateColor(value,false); if(c) td.style.backgroundColor=c; }
+        tr.appendChild(td);
+      });
+
+      const tdAct=document.createElement('td'); tdAct.className='actions';
+      if(editable){
+        const b=document.createElement('button'); b.className='btn-yellow'; b.textContent='แก้ไข';
+        b.dataset.edit='1'; tdAct.appendChild(b);
+      } else { tdAct.textContent='ดูเท่านั้น'; }
+      tr.appendChild(tdAct);
+      return tr;
+    }
+
+    // แถวช่องว่าง (spacer) ต้อง override กฎ td เดิม (height/max-height:42px) ไม่งั้นสูงผิด
+    function spacerRow(h){
+      const tr=document.createElement('tr');
+      const td=document.createElement('td');
+      td.colSpan = vCtx.colCount;
+      td.style.cssText = 'padding:0;border:none;line-height:0;height:'+h+'px;max-height:none;min-height:0;';
+      tr.appendChild(td);
+      return tr;
+    }
+
+    function renderWindow(){
+      const wrap = vGetWrap(), tbody=document.getElementById('tableBody');
+      if(!wrap || !vCtx || !tbody) return;
+      const total = vRows.length;
+      if(total === 0) return;
+
+      let start = Math.floor(wrap.scrollTop / ROW_H) - VBUF;
+      if(start < 0) start = 0;
+      let end = start + Math.ceil(wrap.clientHeight / ROW_H) + VBUF*2;
+      if(end > total) end = total;
+      if(start === vLastStart && end === vLastEnd) return;   // หน้าต่างเดิม ไม่ต้องวาดซ้ำ
+      vLastStart = start; vLastEnd = end;
+
+      const frag = document.createDocumentFragment();
+      frag.appendChild(spacerRow(start * ROW_H));                  // ดันด้วยที่ว่างด้านบน
+      for(let i=start; i<end; i++) frag.appendChild(buildVRow(vRows[i], i));
+      frag.appendChild(spacerRow((total - end) * ROW_H));         // เผื่อความสูงด้านล่าง
+
+      tbody.innerHTML = '';
+      tbody.appendChild(frag);
+    }
+
+          function renderTable(rows,opts){
       opts=opts||{};
+      vRows = rows; vLastStart = -1; vLastEnd = -1;
+
+      const wrap = vGetWrap();
+      // จำตำแหน่งสกรอลล์ไว้ก่อนวาดใหม่ (ค้างหน้าเดิมตอนแก้ไขข้อมูล)
+      const keepScroll = (wrap && !opts.resetScroll) ? wrap.scrollTop : 0;
+
       const thead=document.getElementById('tableHead'), tbody=document.getElementById('tableBody');
       thead.innerHTML=''; tbody.innerHTML='';
+
       const hr=document.createElement('tr');
       const thNo=document.createElement('th'); thNo.textContent='ลำดับ';
       thNo.style.width='50px'; thNo.style.minWidth='50px'; thNo.style.maxWidth='50px';
@@ -508,56 +1076,70 @@
       const thAct=document.createElement('th'); thAct.textContent='จัดการ'; thAct.style.width='80px'; thAct.style.minWidth='80px'; thAct.style.maxWidth='80px'; hr.appendChild(thAct);
       thead.appendChild(hr);
 
+      // ล็อกความกว้างตารางให้เท่าผลรวมคอลัมน์ — กันคอลัมน์ขยับตอน virtual scroll
+      const totalW = 50 + 80 + DISPLAY_FIELDS.reduce((s,f)=>s+(f.width||120),0);
+      const tableEl = thead.parentElement;
+      tableEl.style.width = totalW + 'px';
+      tableEl.style.minWidth = totalW + 'px';
+
       if(rows.length===0){ setStatus('ไม่พบข้อมูลที่ตรงกับคำค้นหา'); return; }
-      const useTarget=(opts.chkUseDate&&opts.keyword)?extractDate(opts.keyword):null;
 
-      rows.forEach((row, idx)=>{
-        const tr=document.createElement('tr');
-        const tdNo=document.createElement('td');
-        tdNo.textContent = idx+1;
-        tdNo.style.width='50px'; tdNo.style.minWidth='50px'; tdNo.style.maxWidth='50px';
-        tdNo.style.textAlign='center'; tdNo.style.color='#888';
-        tr.appendChild(tdNo);
-        DISPLAY_FIELDS.forEach(f=>{
-          const td=document.createElement('td');
-          let value=row[f.key]||'';
-          if(useTarget&&USE_KEYS.includes(f.key)){ const d=extractDate(value); if(!d||d.getTime()!==useTarget.getTime()) value=''; }
-          if(f.key==='status'){ value = effectiveStatus(row); }
+      vCtx = {
+        useTarget: (opts.chkUseDate && opts.keyword) ? extractDate(opts.keyword) : null,
+        editable: canEdit(),
+        colCount: DISPLAY_FIELDS.length + 2   // ลำดับ + ฟิลด์ + จัดการ
+      };
 
-          if(USE_KEYS.includes(f.key) && value){
-            const m=String(value).match(/^(.*?)(\s+)(\d{1,2}\/\d{1,2}\/\d{2,4})\s*$/);
-            if(m){ td.innerHTML=escapeHtml(m[1].trim())+'<br>'+escapeHtml(m[3]); }
-            else { td.textContent=value; }
-          } else {
-            td.textContent=value;
-          }
-
-          if(f.width){ td.style.width=f.width+'px'; td.style.minWidth=f.width+'px'; td.style.maxWidth=f.width+'px'; }
-          if(USE_KEYS.includes(f.key)) td.classList.add('use-cell');
-          if(f.key==='machine') td.classList.add('machine-cell');
-
-          if(f.dateUser) td.style.backgroundColor=dateColor(value,true);
-          else if(f.dateExpire) td.style.backgroundColor=dateColor(value,false);
-
-          if(canEdit()){
-            td.style.cursor='pointer';
-            td.title='ดับเบิลคลิกเพื่อแก้ไขช่องนี้';
-            td.ondblclick=()=>quickEditCell(row, f.key, f.header, row[f.key]||'');
-          }
-            
-          td.oncontextmenu=(e)=>{ e.preventDefault(); showCtxMenu(e, row[f.key]||'', row, f); };
-          tr.appendChild(td);
-        });
-        const tdAct=document.createElement('td'); tdAct.className='actions';
-        tdAct.style.width='80px'; tdAct.style.minWidth='80px'; tdAct.style.maxWidth='80px';
-        if(canEdit()){
-          const b=document.createElement('button'); b.className='btn-yellow'; b.textContent='แก้ไข';
-          b.onclick=()=>openEditModal(row); tdAct.appendChild(b);
-        } else { tdAct.textContent='ดูเท่านั้น'; }
-        tr.appendChild(tdAct);
-        tbody.appendChild(tr);
-      });
+      bindVScroll();
+      renderWindow();                 // วาดรอบแรกให้ tbody สูงเต็มก่อน (ไม่งั้น scrollTop ถูก clamp เป็น 0)
+      if(wrap){
+        wrap.scrollTop = keepScroll;  // ตอนนี้ tbody สูงเต็มแล้ว คืนตำแหน่งได้จริง
+        renderWindow();               // วาดซ้ำให้ตรงตำแหน่ง — synchronous ไม่พึ่ง rAF (แท็บเบื้องหลังก็ถูก)
+      }
       setStatus('แสดง '+rows.length+' แถว');
+    }
+
+        // อัปเดตแถวเดียวใน DOM โดยไม่วาดทั้งตารางใหม่ (กันหน้าเด้ง/ขยับ)
+    function refreshRowDom(rowObj){
+      if(isRoomPage) return false;
+      const tbody=document.getElementById('tableBody');
+      if(!tbody || !vCtx || !rowObj) return false;
+      for(const tr of tbody.children){
+        if(tr._row && tr._row.id===rowObj.id){
+          const n = parseInt(tr.firstChild ? tr.firstChild.textContent : '', 10);
+          tr.replaceWith(buildVRow(rowObj, isNaN(n) ? 0 : n-1));
+          return true;
+        }
+      }
+      return false;   // แถวไม่อยู่ในจอ → ให้ผู้เรียกไปวาดปกติแทน
+    }
+
+    // event delegation — แปะ handler ครั้งเดียวที่ tbody (แทนที่จะแปะทุกช่อง)
+    function initTableHandlers(){
+      const tbody=document.getElementById('tableBody');
+      if(tbody._delegated) return;
+      tbody._delegated = true;
+      const resolve=(target)=>{
+        const td=target.closest('td'); if(!td) return null;
+        const tr=td.closest('tr'); if(!tr||!tr._row) return null;
+        const key=td.dataset.fkey; if(!key) return null;
+        const f=DISPLAY_FIELDS.find(x=>x.key===key); if(!f) return null;
+        return { row:tr._row, key, f };
+      };
+      tbody.addEventListener('dblclick', e=>{
+        if(!canEdit()) return;
+        const r=resolve(e.target); if(!r) return;
+        quickEditCell(r.row, r.key, r.f.header, r.row[r.key]||'');
+      });
+      tbody.addEventListener('contextmenu', e=>{
+        const r=resolve(e.target); if(!r) return;
+        e.preventDefault();
+        showCtxMenu(e, r.row[r.key]||'', r.row, r.f);
+      });
+      tbody.addEventListener('click', e=>{
+        const btn=e.target.closest('button[data-edit]'); if(!btn) return;
+        const tr=btn.closest('tr'); if(tr&&tr._row) openEditModal(tr._row);
+      });
     }
 
     function dateColor(value,checkWaiting){
@@ -643,18 +1225,38 @@
       const btn=document.getElementById('saveBtn'); btn.disabled=true; btn.textContent='กำลังบันทึก...';
       let error;
       if(currentMode==='add'){
-        const res=await sb.from('accounts').insert(payload).select().single();
+        const res=await sb.from('accounts').insert(payload).select(COLS).single();
         error=res.error;
-        if(!error) await writeAudit('ADD', res.data.id, null, res.data);
+        if(!error){
+          markSaved(res.data.id);
+          await writeAudit('ADD', res.data.id, null, res.data);
+          accountsRows.push(res.data);
+          accountsRows.sort((a,b)=>a.id-b.id);
+          saveCache(getMaxUpdatedAt());
+        }
       } else {
         const oldRow=accountsRows.find(r=>r.id===editingId);
-        const res=await sb.from('accounts').update(payload).eq('id',editingId);
+        const res=await sb.from('accounts').update(payload).eq('id',editingId).select(COLS).single();
         error=res.error;
-        if(!error) await writeAudit('UPDATE', editingId, oldRow, payload);
+        if(!error){
+          markSaved(editingId);
+          await writeAudit('UPDATE', editingId, oldRow, res.data);
+          const i=accountsRows.findIndex(r=>r.id===editingId);
+          if(i>=0) accountsRows[i]=res.data;
+          saveCache(getMaxUpdatedAt());
+        }
       }
       btn.disabled=false; btn.textContent='บันทึก';
       if(error){ showModalAlert('บันทึกไม่สำเร็จ: '+error.message); return; }
-      closeModal(); await loadAccounts();
+      closeModal();
+      // โหมดแก้ไข = อัปเดตเฉพาะแถวนั้น (ไม่เด้ง); โหมดเพิ่ม = วาดใหม่
+      if(currentMode==='edit'){
+        const i=accountsRows.findIndex(r=>r.id===editingId);
+        if(!(i>=0 && refreshRowDom(accountsRows[i]))) applySearch();
+      } else {
+        applySearch();
+      }
+      updateSummary();
       showPopup(currentMode==='add'?'เพิ่มข้อมูลสำเร็จ':'บันทึกสำเร็จ','ข้อมูลถูกบันทึกแล้ว','success');
     }
 
@@ -665,8 +1267,11 @@
       const oldRow=accountsRows.find(r=>r.id===id);
       const { error }=await sb.from('accounts').delete().eq('id',id);
       if(error){ showModalAlert('ลบไม่สำเร็จ: '+error.message); return; }
+      markSaved(id);
       await writeAudit('DELETE', id, oldRow, null);
-      closeModal(); await loadAccounts();
+      accountsRows = accountsRows.filter(r=>r.id!==id);
+      saveCache(getMaxUpdatedAt());
+      closeModal(); applySearch(); updateSummary();
       showPopup('ลบสำเร็จ','ลบข้อมูล ID '+id+' แล้ว','success');
     }
 
@@ -765,13 +1370,13 @@
           oldVal=DISPLAY_FIELDS.filter(f=>String(oldRow[f.key]||'').trim()).map(f=>f.header+'='+oldRow[f.key]).join(' | ');
         }
         await sb.from('audit_log').insert({
-          username: currentUser ? currentUser.username : '', 
+          username: currentUser ? currentUser.username : '',
           action, row_id: rowId || null,
           email: (newRow||oldRow||{}).email || '',
-          column_name: colName, 
-          old_value: oldVal, 
+          column_name: colName,
+          old_value: oldVal,
           new_value: newVal,
-          machine: (newRow||oldRow||{}).machine || '', 
+          machine: (newRow||oldRow||{}).machine || '',
           contact: (newRow||oldRow||{}).contact || ''
         });
       } catch(e){ console.log('audit error:', e); }
@@ -788,7 +1393,6 @@
       (data||[]).forEach(r=>{
         const tr=document.createElement('tr');
         const ts=new Date(r.ts).toLocaleString('th-TH');
-        // ใช้ email จาก log ถ้ามี ไม่งั้น fallback หาจาก accountsRows หรือแสดง ID
         let emailLabel = r.email || '';
         if(!emailLabel && r.row_id){
           const acc = accountsRows.find(a=>String(a.id)===String(r.row_id));
@@ -806,7 +1410,10 @@
       if(!canEdit()){ showPopup('ไม่มีสิทธิ์','บัญชีนี้ดูข้อมูลเท่านั้น','error'); return; }
       let newValue;
       const opts = getOptionsFor(key);
-      if(opts && opts.length){
+      if(USE_KEYS.includes(key)){
+        newValue = await editUseValue('แก้ไข: '+header, oldValue);
+        if(newValue===null) return;
+      } else if(opts && opts.length){
         newValue = await pickFromList('แก้ไข: '+header, opts, oldValue);
         if(newValue===null) return;
       } else {
@@ -814,52 +1421,71 @@
         if(newValue===null) return;
         newValue = newValue.trim();
       }
-      
-        if(USE_KEYS.includes(key) && !isValidUseValue(newValue)){
+
+      if(USE_KEYS.includes(key) && !isValidUseValue(newValue)){
         showPopup('ใส่วันที่ด้วย', 'ช่อง '+header+' ต้องมีวันที่ต่อท้ายชื่อ\nเช่น "bestfortest 21/6/69"\n\n(ถ้าต้องการเว้นว่าง ให้ลบให้ว่าง หรือใส่คำว่า "ว่าง")', 'error');
         return;
-      } 
-      
+      }
+
       if(String(newValue)===String(oldValue).trim()) return;
       const payload={}; payload[key]=newValue;
       const oldRow = accountsRows.find(r=>r.id===row.id);
       const { error } = await sb.from('accounts').update(payload).eq('id', row.id);
       if(error){ showPopup('แก้ไขไม่สำเร็จ', error.message, 'error'); return; }
+      markSaved(row.id);
       if(typeof writeAudit==='function' && oldRow){
         const newRow = Object.assign({}, oldRow, payload);
         await writeAudit('UPDATE', row.id, oldRow, newRow);
       }
-      await loadAccounts();
+      const idx = accountsRows.findIndex(r=>r.id===row.id);
+      if(idx>=0) accountsRows[idx] = Object.assign({}, accountsRows[idx], payload);
+      saveCache(getMaxUpdatedAt());
+      // อัปเดตเฉพาะแถวนั้น — ไม่วาดตารางใหม่ = หน้าค้างที่เดิม ไม่เด้ง
+      if(!(idx>=0 && refreshRowDom(accountsRows[idx]))) applySearch();
+      updateSummary();
       setStatus('แก้ไข '+header+' ของ ID '+row.id+' แล้ว');
     }
 
     function startRealtime(){
       stopRealtime();
+      let everSubscribed = false;
       realtimeChannel=sb.channel('accounts-changes')
         .on('postgres_changes',{event:'*',schema:'public',table:'accounts'},p=>handleRealtime(p))
-        .subscribe(s=>{ document.getElementById('liveDot').className=(s==='SUBSCRIBED')?'live-dot on':'live-dot'; });
+        .subscribe(s=>{
+          document.getElementById('liveDot').className=(s==='SUBSCRIBED')?'live-dot on':'live-dot';
+          if(s==='SUBSCRIBED'){
+            if(everSubscribed) autoSync('reconnect');   // ต่อเน็ตใหม่หลังหลุด → ซิงก์เก็บตก
+            everSubscribed = true;
+          }
+        });
     }
     function stopRealtime(){ if(realtimeChannel){ sb.removeChannel(realtimeChannel); realtimeChannel=null; } document.getElementById('liveDot').className='live-dot'; }
+
     function handleRealtime(payload){
       const { eventType, new:n, old:o }=payload;
+      const id = n ? n.id : (o ? o.id : null);
       if(eventType==='INSERT') accountsRows.push(n);
       else if(eventType==='UPDATE'){ const i=accountsRows.findIndex(r=>r.id===n.id); if(i>=0) accountsRows[i]=n; else accountsRows.push(n); }
       else if(eventType==='DELETE') accountsRows=accountsRows.filter(r=>r.id!==o.id);
       accountsRows.sort((a,b)=>a.id-b.id);
-      applySearch();
-      updateSummary();
+      saveCache(getMaxUpdatedAt());
+      // ถ้าเป็นการเปลี่ยนที่เราเพิ่งบันทึกเอง → ข้าม render (เพราะ render ไปแล้วตอนกดบันทึก)
+      if(id!=null && recentlySaved.has(id) && (Date.now()-recentlySaved.get(id) < 5000)){
+        recentlySaved.delete(id);
+        return;
+      }
+      applySearch(); updateSummary();
     }
 
     function isEmptyUse(val){ const t=String(val||'').trim(); return t===''||t==='ว่าง'; }
     function rowHasEmptyHB(row){ return USE_KEYS.some(k => isEmptyUse(row[k])); }
 
-    // ตรวจช่อง Use: ถ้ามีชื่อ ต้องมีวันที่ท้าย — คืน true ถ้าผ่าน
     function isValidUseValue(val){
       const t = String(val||'').trim();
-      if(t === '' || t === 'ว่าง') return true;       // เว้นว่าง/ว่าง = ผ่าน
-      return extractDate(t) !== null;                  // มีข้อความ ต้องมีวันที่ที่อ่านได้
+      if(t === '' || t === 'ว่าง') return true;
+      return extractDate(t) !== null;
     }
-    
+
     function effectiveStatus(row){
       const cur = String(row.status||'').trim();
       const d = extractDate(row.expire_date);
@@ -876,7 +1502,6 @@
       ctxField = field || null;
       const menu = document.getElementById('ctxMenu');
       menu.style.display = 'block';
-      // วางเมนูตรงตำแหน่งเมาส์ (กันล้นขอบจอ)
       const mw=150, mh=44;
       let x=e.clientX, y=e.clientY;
       if(x+mw > window.innerWidth) x = window.innerWidth - mw - 6;
@@ -886,8 +1511,7 @@
     }
     function hideCtxMenu(){ document.getElementById('ctxMenu').style.display='none'; }
 
-    // ตั้งค่า event ตอนโหลดหน้า
-    document.addEventListener('click', hideCtxMenu);   // คลิกที่อื่น = ปิดเมนู
+    document.addEventListener('click', hideCtxMenu);
     document.addEventListener('scroll', hideCtxMenu, true);
     window.addEventListener('DOMContentLoaded', ()=>{
       const copyBtn = document.getElementById('ctxCopy');
@@ -898,14 +1522,12 @@
           await navigator.clipboard.writeText(ctxValue);
           setStatus('คัดลอกแล้ว: ' + (ctxValue.length>40 ? ctxValue.slice(0,40)+'...' : ctxValue));
         } catch(err) {
-          // fallback ถ้า clipboard API ใช้ไม่ได้
           const ta=document.createElement('textarea'); ta.value=ctxValue; document.body.appendChild(ta);
           ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
           setStatus('คัดลอกแล้ว');
         }
         hideCtxMenu();
       };
-
       const histBtn = document.getElementById('ctxHistory');
       histBtn.onmouseover = ()=> histBtn.style.background='#eef';
       histBtn.onmouseout  = ()=> histBtn.style.background='';
@@ -914,53 +1536,23 @@
         if(!ctxRow || !ctxField){ return; }
         await showFieldHistory(ctxRow, ctxField);
       };
-    
     });
-
-    async function syncExpiredStatus(){
-      if(!canEdit()) return;
-      const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-      const toUpdate = accountsRows.filter(row=>{
-        const d=extractDate(row.expire_date);
-        if(!d) return false;
-        if(d.getTime() > today.getTime()) return false;
-        return String(row.status||'').trim() !== 'ยังไม่เติม';
-      });
-      if(toUpdate.length===0) return;
-      for(const row of toUpdate){
-        const oldRow = Object.assign({}, row);
-        const { error } = await sb.from('accounts').update({ status:'ยังไม่เติม' }).eq('id', row.id);
-        if(!error && typeof writeAudit==='function'){
-          const newRow=Object.assign({}, oldRow, { status:'ยังไม่เติม' });
-          await writeAudit('UPDATE', row.id, oldRow, newRow);
-        }
-      }
-      setStatus('อัปเดตสถานะหมดอายุ '+toUpdate.length+' รายการแล้ว');
-      await loadAccounts();
-    }
 
     async function showFieldHistory(row, field){
       if(!canEdit()){ showPopup('ไม่มีสิทธิ์','ดูประวัติได้เฉพาะ ADMIN/EDITOR','error'); return; }
       setStatus('กำลังโหลดประวัติ...');
-
-      // ดึง log ของแถวนี้ (row_id หรือ email) เรียงใหม่ล่าสุดก่อน
       const { data, error } = await sb.from('audit_log')
         .select('*')
         .or('row_id.eq.'+row.id+',email.eq.'+(row.email||'__none__'))
         .order('ts',{ascending:false})
         .limit(200);
-
       if(error){ showPopup('ผิดพลาด', error.message, 'error'); return; }
-
-      // กรองเฉพาะ log ที่แตะคอลัมน์นี้ (column_name มีชื่อหัวคอลัมน์นี้)
       const header = field.header;
       const rows = (data||[]).filter(r=>{
         if(!r.column_name) return false;
-        if(r.action==='ADD' || r.action==='DELETE') return true;   // เพิ่ม/ลบ แสดงด้วย
+        if(r.action==='ADD' || r.action==='DELETE') return true;
         return r.column_name.split(', ').includes(header);
       });
-
-      // สร้างข้อความประวัติ
       let html = '<div style="text-align:left; max-height:50vh; overflow:auto;">';
       html += '<div style="font-weight:800; color:#0f5132; margin-bottom:10px;">ประวัติช่อง "'+escapeHtml(header)+'" ('+escapeHtml(row.email||('ID '+row.id))+')</div>';
       if(rows.length===0){
@@ -969,7 +1561,6 @@
         rows.forEach(r=>{
           const ts=new Date(r.ts).toLocaleString('th-TH');
           const who=userNameMap[r.username]||r.username||'';
-          // ดึงเฉพาะค่าของคอลัมน์นี้จาก old/new (ที่เก็บแบบ "หัว=ค่า | หัว=ค่า")
           const oldV = pickColVal(r.old_value, header);
           const newV = pickColVal(r.new_value, header);
           let detail='';
@@ -983,8 +1574,6 @@
         });
       }
       html += '</div>';
-
-      // แสดงใน popup (ใช้ innerHTML)
       document.getElementById('popupIcon').className='popup-icon success';
       document.getElementById('popupIcon').textContent='🕒';
       document.getElementById('popupTitle').textContent='ประวัติการแก้ไข';
@@ -995,7 +1584,6 @@
       setStatus('');
     }
 
-    // ดึงค่าของคอลัมน์ที่ต้องการ จากสตริง "หัว=ค่า | หัว=ค่า"
     function pickColVal(str, header){
       if(!str) return '';
       const parts = String(str).split(' | ');
@@ -1005,6 +1593,363 @@
       }
       return '';
     }
-  </script>
+
+    (function(){
+  function setup(){
+    const wrap=document.querySelector('.table-wrap');
+    const top=document.getElementById('topScroll');
+    if(!wrap||!top) return;
+    const table=wrap.querySelector('table');
+    const inner=top.firstElementChild;
+    const sync=()=>{ if(table) inner.style.width=table.scrollWidth+'px'; };
+    sync();
+    top.addEventListener('scroll', ()=>{ wrap.scrollLeft=top.scrollLeft; });
+    wrap.addEventListener('scroll', ()=>{ top.scrollLeft=wrap.scrollLeft; });
+    if(table && window.ResizeObserver) new ResizeObserver(sync).observe(table);
+    window.addEventListener('resize', sync);
+  }
+  if(document.readyState!=='loading') setup(); else document.addEventListener('DOMContentLoaded', setup);
+})();
+
+
+/* ===== หน้าห้องว่าง (เบิกห้องยึด) — แสดงทีละห้องแทนรายชื่อหัวบ้าน ===== */
+let isRoomPage = false;
+
+// คอลัมน์ของหน้าห้องว่าง (__slot / __type เป็นคอลัมน์พิเศษ)
+const ROOM_FIELDS = [
+  { key:'email',       header:'Email หัวบ้าน',   width:240 },
+  { key:'pass',        header:'Pass',            width:160 },
+  { key:'__slot',      header:'ช่อง',            width:70  },
+  { key:'machine',     header:'เครื่อง',          width:110 },
+  { key:'expire_date', header:'หมดอายุหัวบ้าน',  width:110, dateExpire:true },
+];
+
+/// กวาดหาช่อง Use ที่ "ว่าง" — จากหัวบ้านที่ยังไม่หมดอายุเท่านั้น
+// ว่าง = ใส่คำว่า 'ว่าง' หรือ ไม่ได้ใส่อะไรเลย (ช่องเปล่า) → นับเหมือนกัน
+function collectEmptyRooms(){
+  const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const list = [];
+  for(const row of accountsRows){
+    const d = extractDate(row.expire_date);
+    if(d && d.getTime() <= today.getTime()) continue;   // ⛔ หัวบ้านหมดอายุ — ข้าม
+    for(const k of USE_KEYS){
+      if(isEmptyUse(row[k])) list.push({ row, key:k });   // isEmptyUse: '' หรือ 'ว่าง' = ว่างเหมือนกัน
+    }
+  }
+  return list;
+}
+
+function toggleRoomPage(){
+  isRoomPage = !isRoomPage;
+  const btn = document.getElementById('roomPageBtn');
+  const title = document.getElementById('pageTitle');
+  if(isRoomPage){
+    // ปิดหน้า "หมดอายุ" ถ้าเปิดค้างอยู่ กันชนกัน
+    if(typeof isExpiredPage!=='undefined' && isExpiredPage){
+      isExpiredPage=false;
+      const eb=document.getElementById('expiredBtn'); if(eb){ eb.textContent='หมดอายุแล้ว'; eb.className='btn-red'; }
+    }
+    btn.textContent='◂ กลับหน้าหัวบ้าน'; btn.className='btn-gray';
+    title.textContent='ห้องว่าง (เบิกห้องยึด)';
+    renderRoomPage();
+  } else {
+    btn.textContent='🏠 หน้าห้องว่าง'; btn.className='btn-primary';
+    title.textContent='หัวบ้าน Dofin Premium';
+    applySearch();
+  }
+}
+
+function renderRoomPage(){
+  let rooms = collectEmptyRooms();
+
+  // กรองด้วยช่องค้นหาหลัก (อีเมล/pass/เครื่อง)
+  const kw = document.getElementById('searchInput').value.trim().toLowerCase();
+  if(kw){
+    const ws = kw.split(/\s+/).filter(Boolean);
+    rooms = rooms.filter(it=>{
+      const hay = (String(it.row.email||'')+' '+String(it.row.pass||'')+' '+String(it.row.machine||'')).toLowerCase();
+      return ws.every(w=>hay.includes(w));
+    });
+  }
+  // เรียงตาม id หัวบ้าน → ช่อง
+  rooms.sort((a,b)=> (a.row.id-b.row.id) || (USE_KEYS.indexOf(a.key)-USE_KEYS.indexOf(b.key)));
+
+  vRows = rooms; vLastStart = -1; vLastEnd = -1;
+  const wrap = vGetWrap();
+  const thead = document.getElementById('tableHead'), tbody = document.getElementById('tableBody');
+  thead.innerHTML=''; tbody.innerHTML='';
+
+  const hr=document.createElement('tr');
+  const thNo=document.createElement('th'); thNo.textContent='ลำดับ';
+  thNo.style.width='50px'; thNo.style.minWidth='50px'; thNo.style.maxWidth='50px'; hr.appendChild(thNo);
+  ROOM_FIELDS.forEach(f=>{
+    const th=document.createElement('th'); th.textContent=f.header;
+    th.style.width=f.width+'px'; th.style.minWidth=f.width+'px'; th.style.maxWidth=f.width+'px';
+    hr.appendChild(th);
+  });
+  const thAct=document.createElement('th'); thAct.textContent='จัดการ';
+  thAct.style.width='110px'; thAct.style.minWidth='110px'; thAct.style.maxWidth='110px'; hr.appendChild(thAct);
+  thead.appendChild(hr);
+
+  const totalW = 50 + 110 + ROOM_FIELDS.reduce((s,f)=>s+f.width,0);
+  const tableEl = thead.parentElement;
+  tableEl.style.width = totalW+'px'; tableEl.style.minWidth = totalW+'px';
+
+  setStatus('หน้าห้องว่าง: '+rooms.length+' ห้องว่าง (จากหัวบ้านที่ยังไม่หมดอายุ)');
+  if(rooms.length===0) return;
+
+  vCtx = { mode:'room', colCount: ROOM_FIELDS.length + 2 };
+  bindVScroll();
+  renderWindow();
+  if(wrap){ wrap.scrollTop = 0; renderWindow(); }
+}
+
+// popup หลังเบิกห้อง: ข้อความชุดเดียว คัดลอกทีเดียวได้ทั้งก้อน
+function showClaimResult(row, newValue){
+  const head = row.email || ('ID '+row.id);
+  const p = parseUseValue(newValue);
+  const tenant = [p.name, p.date].filter(Boolean).join(' ');   // ชื่อลูกค้า + วันที่
+
+  // ข้อความชุดเดียว (นี่คือค่าที่จะถูกคัดลอก)
+  const combined = 'หัวบ้าน\n'+head+'\n\nลูกบ้าน\n'+tenant;
+
+  const html =
+    '<div style="text-align:left;">'
+    + '<div style="background:#f1faf4;border:1px solid #c3ebcf;border-radius:10px;'
+    +      'padding:12px 14px;font-size:14px;color:#2b3a2e;white-space:pre-wrap;'
+    +      'word-break:break-all;line-height:1.7;">'
+    +   escapeHtml(combined)
+    + '</div>'
+    + '<button class="btn-yellow claim-copy" style="margin-top:12px;width:100%;padding:10px;">📋 คัดลอกทั้งหมด</button>'
+    + '</div>';
+
+  document.getElementById('popupIcon').className='popup-icon success';
+  document.getElementById('popupIcon').textContent='✓';
+  document.getElementById('popupTitle').textContent='เบิกห้องสำเร็จ';
+  document.getElementById('popupMsg').innerHTML = html;
+  document.getElementById('popupMsg').style.whiteSpace='normal';
+  popupCb = null;
+  document.getElementById('popupBackdrop').style.display='block';
+
+  const btn = document.querySelector('#popupMsg .claim-copy');
+  if(btn){
+    btn.onclick = async ()=>{
+      try { await navigator.clipboard.writeText(combined); }
+      catch(e){
+        const ta=document.createElement('textarea'); ta.value=combined;
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      const old = btn.textContent;
+      btn.textContent = '✓ คัดลอกแล้ว';
+      setTimeout(()=>{ btn.textContent = old; }, 1200);
+    };
+  }
+}
+
+
+  function buildRoomRow(item, idx){
+  const { row, key, kicked } = item;
+  const n = USE_KEYS.indexOf(key)+1;
+  const tr = document.createElement('tr'); tr._row = row;
+
+  const tdNo=document.createElement('td'); tdNo.textContent=idx+1;
+  tdNo.style.textAlign='center'; tdNo.style.color='#888'; tr.appendChild(tdNo);
+
+  ROOM_FIELDS.forEach(f=>{
+    const td=document.createElement('td');
+    if(f.key==='__slot'){
+      td.innerHTML='<b>Use '+n+'</b>';
+    } else {
+      const value=row[f.key]||'';
+      td.textContent=value;
+      if(f.dateExpire){ const c=dateColor(value,false); if(c) td.style.backgroundColor=c; }
+    }
+    tr.appendChild(td);
+  });
+
+  const tdAct=document.createElement('td'); tdAct.className='actions';
+  if(canEdit()){
+    const b=document.createElement('button'); b.className='btn-yellow'; b.textContent='เบิกห้อง';
+    // ใช้ตัวแก้ช่อง Use เดิม (มีปุ่มร้าน + ชื่อ + วันที่ + เตะแล้ว) → บันทึก+audit+cache ครบเหมือนเดิม
+
+  b.onclick=async ()=>{
+      const before = String(row[key]||'').trim();
+      await quickEditCell(row, key, 'Use '+n, row[key]||'');
+      const live = accountsRows.find(r=>r.id===row.id);
+      const nv = live ? String(live[key]||'').trim() : '';
+      if(nv && nv!=='ว่าง' && nv!==before){
+        showClaimResult(live || row, nv);
+      }
+    };
+
+    tdAct.appendChild(b);
+  } else {
+    tdAct.textContent='ดูเท่านั้น';
+  }
+  tr.appendChild(tdAct);
+  return tr;
+}
+
+</script>
+
+    <!-- ===== แชทในร้าน (staff chat) ===== -->
+<style>
+  #shopChatBtn{position:fixed;left:22px;bottom:16px;z-index:400;border:none;cursor:pointer;
+    width:56px;height:56px;border-radius:50%;font-size:26px;background:linear-gradient(180deg,#51cf66,#40c057);
+    box-shadow:0 4px 0 #2f9e44,0 8px 18px rgba(0,0,0,.18);}
+  #shopChatBtn:active{transform:translateY(2px);box-shadow:0 1px 0 #2f9e44;}
+  #shopChatBadge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;
+    background:#fa5252;color:#fff;border-radius:10px;font-size:12px;font-weight:800;
+    display:none;align-items:center;justify-content:center;}
+  #shopChatPanel{position:fixed;left:22px;bottom:82px;z-index:401;width:min(94vw,340px);height:min(70vh,460px);
+    background:#fff;border:2px solid #d7eede;border-radius:18px;box-shadow:0 16px 48px rgba(40,80,50,.25);
+    display:none;flex-direction:column;overflow:hidden;}
+  #shopChatPanel .hd{background:linear-gradient(180deg,#51cf66,#40c057);color:#fff;font-weight:800;
+    padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+  #shopChatPanel .hd .sp{flex:1;}
+  #shopChatPanel .hd button{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;line-height:1;}
+  #shopChatList{flex:1;overflow-y:auto;padding:12px;background:#f3fbf5;display:flex;flex-direction:column;gap:8px;}
+  .scm{max-width:80%;padding:7px 11px;border-radius:14px;font-size:13px;line-height:1.4;word-break:break-word;}
+  .scm .who{font-size:10px;font-weight:800;opacity:.7;margin-bottom:2px;}
+  .scm .tm{font-size:9px;opacity:.55;margin-top:2px;text-align:right;}
+  .scm.them{background:#fff;border:1px solid #e3efe7;align-self:flex-start;}
+  .scm.me{background:#d8f3df;align-self:flex-end;}
+  #shopChatPicker{display:none;border-top:1px solid #e3efe7;background:#fafffb;}
+  #shopChatTabs{display:flex;gap:2px;padding:5px 6px 0;overflow-x:auto;}
+  #shopChatTabs button{border:none;background:none;cursor:pointer;font-size:18px;padding:3px 6px;border-radius:8px;opacity:.6;}
+  #shopChatTabs button.on{opacity:1;background:#e8f7ec;}
+  #shopChatGrid{display:grid;grid-template-columns:repeat(8,1fr);gap:1px;max-height:150px;overflow-y:auto;padding:6px;}
+  #shopChatGrid button{border:none;background:none;cursor:pointer;font-size:20px;padding:3px;border-radius:6px;}
+  #shopChatGrid button:hover{background:#e8f7ec;}
+  #shopChatForm{display:flex;gap:6px;padding:10px;border-top:1px solid #e3efe7;align-items:center;}
+  #shopChatEmojiBtn{border:none;background:none;cursor:pointer;font-size:22px;padding:0 2px;}
+  #shopChatInput{flex:1;padding:9px 12px;border:2px solid #d7eede;border-radius:20px;font-family:inherit;font-size:14px;outline:none;}
+  #shopChatInput:focus{border-color:#40c057;}
+</style>
+<button id="shopChatBtn" title="แชทในร้าน">💬<span id="shopChatBadge">0</span></button>
+<div id="shopChatPanel">
+  <div class="hd">
+    <span>💬 แชทในร้าน</span><span class="sp"></span>
+    <button id="shopChatSound" title="เปิด/ปิดเสียง">🔊</button>
+    <button onclick="scToggle(false)" title="ปิด">✕</button>
+  </div>
+  <div id="shopChatList"></div>
+  <div id="shopChatPicker"><div id="shopChatTabs"></div><div id="shopChatGrid"></div></div>
+  <form id="shopChatForm" onsubmit="scSend(event)">
+    <button type="button" id="shopChatEmojiBtn" title="อีโมจิ">😊</button>
+    <input id="shopChatInput" autocomplete="off" placeholder="พิมพ์ข้อความ...">
+    <button type="submit" class="btn-primary" style="padding:9px 16px;">ส่ง</button>
+  </form>
+</div>
+<script>
+(function(){
+  let scOpen=false, scUnread=0, scReady=false;
+  let scSound = localStorage.getItem('shopChatSound')!=='off';
+  const $=id=>document.getElementById(id);
+
+  // อีโมจิเต็มชุด แบ่งหมวด (label = อีโมจิตัวแรกของหมวด)
+  const CATS={
+    '😀':'😀😃😄😁😆😅🤣😂🙂🙃😉😊😇🥰😍🤩😘😗😚😋😛😜🤪😝🤗🤭🤫🤔🤐🤨😐😑😶😏😒🙄😬😌😔😪🤤😴😷🤒🤕🤢🤮🤧🥵🥶🥴😵🤯🤠🥳😎🤓🧐😕😟🙁☹️😮😯😲😳🥺😦😧😨😰😥😢😭😱😖😣😞😓😩😫🥱😤😡😠🤬😈👿💀💩🤡👻👽',
+    '👍':'👍👎👌🤌🤏✌️🤞🤟🤘🤙👈👉👆👇☝️✋🤚🖐️🖖👋🤝🙏💪🦾👏🙌👐🤲🙋🙆🙅💁🤦🤷',
+    '❤️':'❤️🧡💛💚💙💜🖤🤍🤎💔❣️💕💞💓💗💖💘💝✨⭐🌟💫🔥💥💯✅❌⭕‼️❓❗🎉🎊🎁🎈',
+    '🐶':'🐶🐱🐭🐹🐰🦊🐻🐼🐨🐯🦁🐮🐷🐸🐵🐔🐧🐦🐤🦆🦅🦉🐺🐗🐴🦄🐝🐛🦋🐌🐞🐢🐍🐙🦀🐠🐟🐬🐳🦈🐊🐘🦒🦓🦍',
+    '🍎':'🍎🍐🍊🍋🍌🍉🍇🍓🍈🍒🍑🥭🍍🥥🥝🍅🥑🥦🌽🥕🥔🥐🍞🥖🧀🥚🍳🥞🧇🥓🍔🍟🍕🌭🥪🌮🌯🍜🍲🍛🍣🍱🍤🍙🍚🍥🥟🍦🍰🎂🍮🍭🍬🍫🍿🍩🍪☕🍵🧋🍺🍻🥂',
+    '⚽':'⚽🏀🏈⚾🎾🏐🎱🏓🏸🏆🥇🥈🥉🎯🎮🎲🎸🎹🎺🎻🥁🎤🎧🎬🎨🚗🚙🚕🚌🚑🚒✈️🚀⛵🏠⏰📱💻💡📌📎🔑🔒'
+  };
+
+  window.scToggle=function(open){
+    scOpen = open===undefined ? !scOpen : open;
+    $('shopChatPanel').style.display = scOpen?'flex':'none';
+    if(scOpen){ scUnread=0; scBadge(); scScroll(); $('shopChatInput').focus(); }
+  };
+  function scBadge(){ const b=$('shopChatBadge'); b.textContent=scUnread; b.style.display=scUnread>0?'flex':'none'; }
+  function scScroll(){ const l=$('shopChatList'); l.scrollTop=l.scrollHeight; }
+  function scAdd(m){
+    const mine = currentUser && m.username===currentUser.username;
+    const d=document.createElement('div'); d.className='scm '+(mine?'me':'them');
+    const t=new Date(m.ts).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+    d.innerHTML=(mine?'':'<div class="who">'+escapeHtml(m.name||m.username)+'</div>')
+      +escapeHtml(m.text)+'<div class="tm">'+t+'</div>';
+    $('shopChatList').appendChild(d); scScroll();
+  }
+  window.scSend=async function(e){
+    e.preventDefault();
+    if(!currentUser) return;
+    const inp=$('shopChatInput'), text=inp.value.trim(); if(!text) return;
+    inp.value='';
+    const { error }=await sb.from('shop_chat').insert({
+      username:currentUser.username, name:currentUser.name||currentUser.username, text });
+    if(error){ inp.value=text; setStatus&&setStatus('ส่งแชทไม่สำเร็จ: '+error.message); }
+  };
+  $('shopChatBtn').onclick=()=>scToggle();
+
+  // ===== ปุ่มเปิด/ปิดเสียง =====
+  function scSoundBtn(){ $('shopChatSound').textContent = scSound?'🔊':'🔇'; }
+  $('shopChatSound').onclick=(e)=>{ e.stopPropagation();
+    scSound=!scSound; localStorage.setItem('shopChatSound', scSound?'on':'off'); scSoundBtn();
+    if(scSound) beep();   // ทดสอบเสียงตอนเปิด
+  };
+  scSoundBtn();
+
+  // ===== ตัวเลือกอีโมจิเต็มชุด =====
+  function scRenderGrid(cat){
+    const g=$('shopChatGrid'); g.innerHTML='';
+    Array.from(CATS[cat]).forEach(em=>{
+      const b=document.createElement('button'); b.type='button'; b.textContent=em;
+      b.onclick=()=>{ const i=$('shopChatInput'); i.value+=em; i.focus(); };
+      g.appendChild(b);
+    });
+  }
+  (function scBuildTabs(){
+    const tabs=$('shopChatTabs'); const keys=Object.keys(CATS);
+    keys.forEach((k,idx)=>{
+      const b=document.createElement('button'); b.type='button'; b.textContent=k;
+      if(idx===0) b.className='on';
+      b.onclick=()=>{ tabs.querySelectorAll('button').forEach(x=>x.className=''); b.className='on'; scRenderGrid(k); };
+      tabs.appendChild(b);
+    });
+    scRenderGrid(keys[0]);
+  })();
+  $('shopChatEmojiBtn').onclick=()=>{ const p=$('shopChatPicker');
+    p.style.display = p.style.display==='block' ? 'none' : 'block'; };
+
+  // ===== เสียงเตือน (WebAudio ไม่ต้องมีไฟล์) =====
+  let actx=null;
+  function beep(){
+    if(!scSound) return;
+    try{
+      actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.frequency.value=880; o.connect(g); g.connect(actx.destination);
+      g.gain.setValueAtTime(.15,actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.25);
+      o.start(); o.stop(actx.currentTime+.25);
+    }catch(e){}
+  }
+  function notify(m){
+    beep();
+    if('Notification' in window && Notification.permission==='granted'){
+      new Notification('💬 '+(m.name||m.username), { body:m.text });
+    }
+  }
+
+  async function scInit(){
+    if(scReady) return; scReady=true;
+    if('Notification' in window && Notification.permission==='default') Notification.requestPermission();
+    const { data }=await sb.from('shop_chat').select('*').order('ts',{ascending:true}).limit(100);
+    (data||[]).forEach(scAdd);
+    sb.channel('shop-chat').on('postgres_changes',
+      {event:'INSERT',schema:'public',table:'shop_chat'}, p=>{
+        const own = currentUser && p.new.username===currentUser.username;
+        scAdd(p.new);
+        if(!own && (!scOpen || document.hidden)){ scUnread++; scBadge(); notify(p.new); }
+      }).subscribe();
+  }
+  // ponytail: poll until login sets currentUser, then init once (avoids editing afterLogin)
+  const w=setInterval(()=>{ if(typeof currentUser!=='undefined' && currentUser){ clearInterval(w); scInit(); } }, 800);
+})();
+</script>
+
 </body>
 </html>
