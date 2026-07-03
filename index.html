@@ -351,10 +351,11 @@
       <div id="userModalAlert" class="modal-alert"></div>
       <div style="font-size:13px; color:#666; margin-bottom:12px; line-height:1.6;">
         ADMIN = จัดการผู้ใช้ + แก้ไขข้อมูล &nbsp;|&nbsp; EDITOR = แก้ไขข้อมูล &nbsp;|&nbsp; VIEWER = ดูอย่างเดียว<br>
-        <b>หมายเหตุ:</b> การสร้างบัญชีใหม่/ลบบัญชี ทำที่ Supabase Dashboard → Authentication
+        <b>หมายเหตุ:</b> เพิ่มผู้ใช้ใหม่ = ระบบสร้างบัญชีให้อัตโนมัติ (ใส่ username + รหัสผ่าน) &nbsp;|&nbsp; การลบบัญชีถาวร ทำที่ Supabase Dashboard → Authentication
       </div>
-      <div class="form-grid" style="grid-template-columns:repeat(4,1fr); align-items:end;">
+      <div class="form-grid" style="grid-template-columns:repeat(5,1fr); align-items:end;">
         <div class="form-group"><label>Username</label><input id="uUsername" type="text" placeholder="เช่น staff1"></div>
+        <div class="form-group"><label>รหัสผ่าน <span class="hint-red">*ตอนสร้างใหม่</span></label><input id="uPassword" type="text" placeholder="อย่างน้อย 6 ตัว"></div>
         <div class="form-group"><label>ชื่อ</label><input id="uName" type="text"></div>
         <div class="form-group"><label>บทบาท</label>
           <select id="uRole"><option value="EDITOR">EDITOR</option><option value="VIEWER">VIEWER</option><option value="ADMIN">ADMIN</option></select></div>
@@ -487,6 +488,18 @@
     const USE_KEYS = ['use1','use2','use3','use4','use5'];
 
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // client แยกสำหรับสร้างบัญชีใหม่ (signUp) — persistSession:false + storageKey ต่างหาก
+    // เพื่อไม่ให้ session ของแอดมินที่ล็อกอินอยู่ถูกสลับไปเป็น user ที่เพิ่งสร้าง
+    let signupClient = null;
+    function getSignupClient(){
+      if(!signupClient){
+        signupClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: { persistSession:false, autoRefreshToken:false, storageKey:'sb-signup-temp' }
+        });
+      }
+      return signupClient;
+    }
     let currentUser = null, accountsRows = [], realtimeChannel = null, isExpiredPage = false;
     let currentMode = 'edit', editingId = null, popupCb = null;
     let syncing = false, lastAutoSync = 0, autoSyncTimer = null;
@@ -1269,12 +1282,16 @@
     function resetUserForm(){
       editingUserId=null;
       document.getElementById('uUsername').value=''; document.getElementById('uName').value='';
+      document.getElementById('uPassword').value=''; document.getElementById('uPassword').disabled=false;
+      document.getElementById('uPassword').placeholder='อย่างน้อย 6 ตัว';
       document.getElementById('uRole').value='EDITOR'; document.getElementById('uStatus').value='ACTIVE';
       document.getElementById('uSaveBtn').textContent='บันทึก'; document.getElementById('uUsername').disabled=false;
     }
     function editUser(u){
       editingUserId=u.id;
       document.getElementById('uUsername').value=u.username||''; document.getElementById('uName').value=u.name||'';
+      document.getElementById('uPassword').value=''; document.getElementById('uPassword').disabled=true;
+      document.getElementById('uPassword').placeholder='เปลี่ยนรหัสที่ Dashboard';
       document.getElementById('uRole').value=u.role||'EDITOR'; document.getElementById('uStatus').value=u.status||'ACTIVE';
       document.getElementById('uSaveBtn').textContent='บันทึกการแก้ไข'; document.getElementById('uUsername').disabled=false;
     }
@@ -1291,13 +1308,34 @@
         resetUserForm(); await loadUsers(); await loadMachineOptions();
         showPopup('บันทึกสำเร็จ','แก้ไขผู้ใช้แล้ว','success');
       } else {
-        showUserAlert('การสร้างผู้ใช้ใหม่:\n1) ไปที่ Supabase → Authentication → Add user สร้าง '+username+'@'+LOGIN_DOMAIN+'\n2) คัดลอก UID มาใส่ในช่องที่จะถามต่อไป');
-        const uid=prompt('วาง User UID จาก Supabase Dashboard:');
-        if(!uid){ return; }
-        const { error }=await sb.from('user_profiles').insert({ id: uid.trim(), username, name, role, status, created_by: currentUser.username });
-        if(error){ showUserAlert('สร้างไม่สำเร็จ: '+error.message+'\n(ตรวจว่า UID ถูกต้องและยังไม่มี profile)'); return; }
+        const password=document.getElementById('uPassword').value;
+        if(!password || password.length < 6){ showUserAlert('กรุณาตั้งรหัสผ่านอย่างน้อย 6 ตัวอักษร'); return; }
+        const email = username + '@' + LOGIN_DOMAIN;
+        const saveBtn=document.getElementById('uSaveBtn'); saveBtn.disabled=true; saveBtn.textContent='กำลังสร้าง...';
+
+        // 1) สร้างบัญชี Auth ผ่าน client แยก (ไม่กระทบ session แอดมิน)
+        const { data:signUpData, error:signUpErr } = await getSignupClient().auth.signUp({ email, password });
+        if(signUpErr){
+          saveBtn.disabled=false; saveBtn.textContent='บันทึก';
+          showUserAlert('สร้างบัญชีไม่สำเร็จ: '+signUpErr.message+'\n(อาจมี username นี้อยู่แล้ว หรือรหัสสั้นเกินไป)');
+          return;
+        }
+        const newId = signUpData && signUpData.user && signUpData.user.id;
+        if(!newId){
+          saveBtn.disabled=false; saveBtn.textContent='บันทึก';
+          showUserAlert('สร้างบัญชีแล้วแต่ไม่ได้รับ UID\nกรุณาปิด "Confirm email" ใน Supabase → Authentication → Providers → Email แล้วลองใหม่');
+          return;
+        }
+
+        // 2) ผูกสิทธิ์ในตาราง user_profiles (ใช้ session แอดมิน)
+        const { error } = await sb.from('user_profiles').insert({ id: newId, username, name, role, status, created_by: currentUser.username });
+        saveBtn.disabled=false; saveBtn.textContent='บันทึก';
+        if(error){
+          showUserAlert('สร้างบัญชี Auth สำเร็จแล้ว แต่ผูกสิทธิ์ไม่สำเร็จ: '+error.message+'\n(UID: '+newId+' — เอาไปผูกเองใน user_profiles ได้)');
+          return;
+        }
         resetUserForm(); await loadUsers(); await loadMachineOptions();
-        showPopup('สร้างผู้ใช้สำเร็จ','ผูกสิทธิ์ให้ '+username+' แล้ว','success');
+        showPopup('สร้างผู้ใช้สำเร็จ','สร้างบัญชี + ตั้งรหัสให้ "'+username+'" แล้ว\nเข้าระบบด้วย username: '+username,'success');
       }
     }
     async function deleteUserProfile(u){
