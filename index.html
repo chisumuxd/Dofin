@@ -282,47 +282,6 @@
         </div>
         </style>
 
-        <div id="duckPond"></div>
-        <style>
-        #duckPond{
-    position:relative; height:92px; overflow:hidden; border-radius:14px; margin-bottom:10px;
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 70' width='240' height='70'%3E%3Crect x='40' y='40' width='6' height='26' fill='%237a4a1e'/%3E%3Ccircle cx='43' cy='28' r='17' fill='%233f9d4f'/%3E%3Ccircle cx='30' cy='36' r='11' fill='%234fb866'/%3E%3Ccircle cx='56' cy='36' r='11' fill='%234fb866'/%3E%3Ccircle cx='43' cy='20' r='11' fill='%2357c46f'/%3E%3Crect x='117' y='46' width='6' height='20' fill='%23654321'/%3E%3Cpolygon points='120,8 104,34 136,34' fill='%232f8f43'/%3E%3Cpolygon points='120,20 102,46 138,46' fill='%23379a4d'/%3E%3Cpolygon points='120,30 100,56 140,56' fill='%233f9d4f'/%3E%3Crect x='196' y='48' width='5' height='18' fill='%237a4a1e'/%3E%3Ccircle cx='198' cy='42' r='12' fill='%234caf5e'/%3E%3Ccircle cx='189' cy='48' r='8' fill='%2357c46f'/%3E%3Ccircle cx='207' cy='48' r='8' fill='%2357c46f'/%3E%3C/svg%3E") repeat-x left top / 200px 58px,
-      linear-gradient(to bottom, #cdeafe 0, #cdeafe 60px, #6cb7e8 60px, #3f8fd0 100%);
-  }
-  #duckPond .pduck{ position:absolute; animation: pdSwim ease-in-out infinite; }
-  #duckPond .pbody{ position:relative; animation: pdBob 1.7s ease-in-out infinite; }
-  #duckPond .pbody svg{ display:block; animation: pdFlip ease-in-out infinite; }
-  #duckPond .prip{ position:absolute; left:50%; bottom:-5px; width:54px; height:10px; margin-left:-27px; border-radius:50%; background:rgba(255,255,255,.5); animation: pdRip 1.7s ease-in-out infinite; }
-  @keyframes pdSwim{ 0%{translate:calc(var(--x)*-1) 0;} 50%{translate:var(--x) 0;} 100%{translate:calc(var(--x)*-1) 0;} }
-  @keyframes pdBob{ 0%,100%{translate:0 0; rotate:-2deg;} 50%{translate:0 -4px; rotate:2deg;} }
-  @keyframes pdFlip{ 0%,50%{scale:var(--s) var(--s);} 50.01%,100%{scale:calc(var(--s)*-1) var(--s);} }
-  @keyframes pdRip{ 0%,100%{transform:scaleX(.7);opacity:.3;} 50%{transform:scaleX(1.15);opacity:.7;} }
-  @media (prefers-reduced-motion: reduce){ #duckPond *{ animation:none!important; } }
-</style>
-<script>
-(function(){
-  const pond=document.getElementById('duckPond'); if(!pond) return;
-  const DUCK=`<svg viewBox="0 0 70 50" width="50" height="36" xmlns="http://www.w3.org/2000/svg"><ellipse cx="28" cy="30" rx="20" ry="13" fill="#f9a8c4"/><path d="M41 12 l2 -8 l7 5 z" fill="#f18fb5"/><path d="M57 12 l-2 -8 l-7 5 z" fill="#f18fb5"/><circle cx="49" cy="20" r="11" fill="#f9a8c4"/><ellipse cx="58" cy="22" rx="5" ry="4" fill="#f18fb5" stroke="#e87ba6" stroke-width="1"/><circle cx="56.5" cy="22" r="1" fill="#8a4a63"/><circle cx="59.5" cy="22" r="1" fill="#8a4a63"/><circle cx="47" cy="18" r="1.7" fill="#4b2e00"/></svg>`;
-  // [left%, bottomPx, scale, travelPx, durSec, delaySec, opacity]
-  const ducks=[
-    [3,  6, .55, 60, 8,  0,    1],
-    [18, 9, .40, 40,10, -3,  .85],
-    [33, 3, .62, 75, 6, -1.5,  1],
-    [48,10, .38, 35,11, -5,   .8],
-    [63, 5, .50, 55, 7, -2,  .95],
-    [80, 8, .45, 45, 9, -6,  .85],
-  ];
-  pond.innerHTML = ducks.map(d=>`
-    <div class="pduck" style="left:${d[0]}%; bottom:${d[1]}px; --x:${d[3]}px; animation-duration:${d[4]}s; animation-delay:${d[5]}s;">
-      <div class="pbody" style="opacity:${d[6]}; animation-delay:${d[5]}s;">
-        <div class="prip"></div><span>${DUCK}</span>
-      </div>
-    </div>`).join('');
-  pond.querySelectorAll('.pbody svg').forEach((svg,i)=>{ svg.style.setProperty('--s',ducks[i][2]); svg.style.animationDuration=ducks[i][4]+'s'; svg.style.animationDelay=ducks[i][5]+'s'; });
-})();
-</script>
-
         <div id="summaryBar" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
           <div class="summary-box" style="background:#e7f1ff; color:#084298;">
             <div class="summary-num" id="sumTotal">-</div>
@@ -451,7 +410,7 @@
   <script>
     const SUPABASE_URL = 'https://mwnuvqpnowdpkzxsiqhi.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13bnV2cXBub3dkcGt6eHNpcWhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTMwODIsImV4cCI6MjA5Nzc2OTA4Mn0.cSgAB72Q__w2RWskRt6evSpwkiNsz3OYDlAvd6uKga8';
-    const LOGIN_DOMAIN = 'duck.local';
+    const LOGIN_DOMAIN = 'dofin.local';
 
     // คอลัมน์ที่ดึงจาก DB (ระบุชัด ไม่ใช้ * เพื่อลด egress)
     const COLS = 'id,email,pass,use1,use2,use3,use4,use5,machine,contact,expire_date,status,credit,fill_date,apple_email,apple_pass,mail_birth,ios_verify,phone_owner,note,updated_at';
@@ -707,7 +666,7 @@
       const email=u.includes('@')?u:(u+'@'+LOGIN_DOMAIN);
       const { data, error }=await sb.auth.signInWithPassword({email,password:p});
       btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
-      if(error){ setLoginError('เข้าสู่ระบบไม่สำเร็จ\nชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'); return; }
+      if(error){ console.log('login error:', error); setLoginError('เข้าสู่ระบบไม่สำเร็จ\n[email: '+email+']\n'+error.message); return; }
       await afterLogin(data.user);
     }
 
