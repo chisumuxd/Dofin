@@ -411,7 +411,7 @@
   <script>
     const SUPABASE_URL = 'https://mwnuvqpnowdpkzxsiqhi.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13bnV2cXBub3dkcGt6eHNpcWhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTMwODIsImV4cCI6MjA5Nzc2OTA4Mn0.cSgAB72Q__w2RWskRt6evSpwkiNsz3OYDlAvd6uKga8';
-    const LOGIN_DOMAIN = 'dofin.local';
+    const LOGIN_DOMAIN = 'dofin.com';   // ต้องเป็น TLD ปกติ (.com/.co/.app) — Supabase ปฏิเสธ .local ตอน signUp
 
     // คอลัมน์ที่ดึงจาก DB (ระบุชัด ไม่ใช้ * เพื่อลด egress)
     const COLS = 'id,email,pass,use1,use2,use3,use4,use5,machine,contact,expire_date,status,credit,fill_date,apple_email,apple_pass,mail_birth,ios_verify,phone_owner,note,updated_at';
