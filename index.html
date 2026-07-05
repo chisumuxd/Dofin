@@ -497,7 +497,7 @@
     }
 
     function getOptionsFor(key){
-      if(key === 'machine') return (machineOptions && machineOptions.length) ? machineOptions : null;
+      if(key === 'machine') return ['A','B','C'];
       return DROPDOWN_OPTIONS[key] || null;
     }
 
