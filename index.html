@@ -1578,7 +1578,7 @@
     function handleRealtime(payload){
       const { eventType, new:n, old:o }=payload;
       const id = n ? n.id : (o ? o.id : null);
-      if(eventType==='INSERT') accountsRows.push(n);
+      if(eventType==='INSERT'){ if(!accountsRows.some(r=>r.id===n.id)) accountsRows.push(n); }
       else if(eventType==='UPDATE'){ const i=accountsRows.findIndex(r=>r.id===n.id); if(i>=0) accountsRows[i]=n; else accountsRows.push(n); }
       else if(eventType==='DELETE') accountsRows=accountsRows.filter(r=>r.id!==o.id);
       accountsRows.sort((a,b)=>a.id-b.id);
