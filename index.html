@@ -603,6 +603,45 @@
     }
     function closePopup(){ document.getElementById('popupBackdrop').style.display='none'; if(popupCb){const c=popupCb;popupCb=null;c();} }
 
+    // เลือกได้หลายอัน — ค่าเก็บเป็น "ชื่อ1, ชื่อ2" (คั่นด้วย , )
+    function pickMultiFromList(title, options, currentValue){
+      return new Promise(resolve=>{
+        const selected = new Set(String(currentValue||'').split(',').map(s=>s.trim()).filter(Boolean));
+        const backdrop=document.createElement('div');
+        backdrop.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
+        const box=document.createElement('div');
+        box.style.cssText='background:#fff;max-width:380px;width:100%;margin:12vh auto 0;border-radius:18px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,0.28);';
+        const h=document.createElement('div'); h.textContent=title;
+        h.style.cssText='font-size:17px;font-weight:800;color:#0f5132;margin-bottom:4px;'; box.appendChild(h);
+        const hint=document.createElement('div'); hint.textContent='เลือกได้หลายอัน (กดสลับเลือก/ยกเลิก)';
+        hint.style.cssText='font-size:12px;color:#777;margin-bottom:12px;'; box.appendChild(hint);
+        function paint(b,on,opt){ b.textContent=(on?'✓ ':'')+opt;
+          b.style.cssText='display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px 14px;border-radius:10px;border:2px solid '+(on?'#198754':'#ccc')+';background:'+(on?'#eefaf2':'#fff')+';font-size:15px;font-weight:'+(on?'700':'500')+';cursor:pointer;color:#222;'; }
+        options.forEach(opt=>{
+          const name=String(opt).trim();
+          const b=document.createElement('button'); paint(b, selected.has(name), opt);
+          b.onclick=()=>{ selected.has(name) ? selected.delete(name) : selected.add(name); paint(b, selected.has(name), opt); };
+          box.appendChild(b);
+        });
+        const footer=document.createElement('div'); footer.style.cssText='display:flex;gap:10px;margin-top:6px;';
+        const okBtn=document.createElement('button'); okBtn.textContent='ตกลง';
+        okBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#198754;color:#fff;font-weight:700;cursor:pointer;';
+        okBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(Array.from(selected).join(', ')); };
+        const clearBtn=document.createElement('button'); clearBtn.textContent='ลบค่า (เว้นว่าง)';
+        clearBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#ffc107;color:#222;font-weight:700;cursor:pointer;';
+        clearBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(''); };
+        const cancelBtn=document.createElement('button'); cancelBtn.textContent='ยกเลิก';
+        cancelBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#6c757d;color:#fff;font-weight:700;cursor:pointer;';
+        cancelBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(null); };
+        footer.appendChild(okBtn); footer.appendChild(clearBtn); footer.appendChild(cancelBtn); box.appendChild(footer);
+        backdrop.appendChild(box);
+        backdrop.onclick=(e)=>{ if(e.target===backdrop){ document.body.removeChild(backdrop); resolve(null); } };
+        document.body.appendChild(backdrop);
+      });
+    }
+   
+    
+    
     function pickFromList(title, options, currentValue){
       return new Promise(resolve=>{
         const backdrop=document.createElement('div');
