@@ -497,7 +497,7 @@
     }
 
     function getOptionsFor(key){
-      if(key === 'machine') return ['A','B','C'];
+      if(key === 'machine') return ['A','B','C','เมย์','เพชร','ตี๋'];
       return DROPDOWN_OPTIONS[key] || null;
     }
 
@@ -603,46 +603,7 @@
     }
     function closePopup(){ document.getElementById('popupBackdrop').style.display='none'; if(popupCb){const c=popupCb;popupCb=null;c();} }
 
-    // เลือกได้หลายอัน — ค่าเก็บเป็น "ชื่อ1, ชื่อ2" (คั่นด้วย , )
-    function pickMultiFromList(title, options, currentValue){
-      return new Promise(resolve=>{
-        const selected = new Set(String(currentValue||'').split(',').map(s=>s.trim()).filter(Boolean));
-        const backdrop=document.createElement('div');
-        backdrop.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
-        const box=document.createElement('div');
-        box.style.cssText='background:#fff;max-width:380px;width:100%;margin:12vh auto 0;border-radius:18px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,0.28);';
-        const h=document.createElement('div'); h.textContent=title;
-        h.style.cssText='font-size:17px;font-weight:800;color:#0f5132;margin-bottom:4px;'; box.appendChild(h);
-        const hint=document.createElement('div'); hint.textContent='เลือกได้หลายอัน (กดสลับเลือก/ยกเลิก)';
-        hint.style.cssText='font-size:12px;color:#777;margin-bottom:12px;'; box.appendChild(hint);
-        function paint(b,on,opt){ b.textContent=(on?'✓ ':'')+opt;
-          b.style.cssText='display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px 14px;border-radius:10px;border:2px solid '+(on?'#198754':'#ccc')+';background:'+(on?'#eefaf2':'#fff')+';font-size:15px;font-weight:'+(on?'700':'500')+';cursor:pointer;color:#222;'; }
-        options.forEach(opt=>{
-          const name=String(opt).trim();
-          const b=document.createElement('button'); paint(b, selected.has(name), opt);
-          b.onclick=()=>{ selected.has(name) ? selected.delete(name) : selected.add(name); paint(b, selected.has(name), opt); };
-          box.appendChild(b);
-        });
-        const footer=document.createElement('div'); footer.style.cssText='display:flex;gap:10px;margin-top:6px;';
-        const okBtn=document.createElement('button'); okBtn.textContent='ตกลง';
-        okBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#198754;color:#fff;font-weight:700;cursor:pointer;';
-        okBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(Array.from(selected).join(', ')); };
-        const clearBtn=document.createElement('button'); clearBtn.textContent='ลบค่า (เว้นว่าง)';
-        clearBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#ffc107;color:#222;font-weight:700;cursor:pointer;';
-        clearBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(''); };
-        const cancelBtn=document.createElement('button'); cancelBtn.textContent='ยกเลิก';
-        cancelBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#6c757d;color:#fff;font-weight:700;cursor:pointer;';
-        cancelBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(null); };
-        footer.appendChild(okBtn); footer.appendChild(clearBtn); footer.appendChild(cancelBtn); box.appendChild(footer);
-        backdrop.appendChild(box);
-        backdrop.onclick=(e)=>{ if(e.target===backdrop){ document.body.removeChild(backdrop); resolve(null); } };
-        document.body.appendChild(backdrop);
-      });
-    }
-   
-    
-    
-    function pickFromList(title, options, currentValue){
+    function pickFromList(title, options, currentValue, multi){
       return new Promise(resolve=>{
         const backdrop=document.createElement('div');
         backdrop.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;';
@@ -651,13 +612,25 @@
         const h=document.createElement('div'); h.textContent=title;
         h.style.cssText='font-size:17px;font-weight:800;color:#0f5132;margin-bottom:14px;'; box.appendChild(h);
         const cur=String(currentValue||'').trim();
+        const selected=new Set(multi ? cur.split(',').map(s=>s.trim()).filter(Boolean) : []);
         options.forEach(opt=>{
           const b=document.createElement('button'); b.textContent=opt;
-          const isCur=(String(opt).trim()===cur);
-          b.style.cssText='display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px 14px;border-radius:10px;border:1px solid '+(isCur?'#198754':'#ccc')+';background:'+(isCur?'#eefaf2':'#fff')+';font-size:15px;font-weight:'+(isCur?'700':'500')+';cursor:pointer;color:#222;';
-          b.onclick=()=>{ document.body.removeChild(backdrop); resolve(opt); };
+          const paint=()=>{
+            const isCur = multi ? selected.has(opt) : (String(opt).trim()===cur);
+            b.style.cssText='display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px 14px;border-radius:10px;border:1px solid '+(isCur?'#198754':'#ccc')+';background:'+(isCur?'#eefaf2':'#fff')+';font-size:15px;font-weight:'+(isCur?'700':'500')+';cursor:pointer;color:#222;';
+          };
+          paint();
+          b.onclick = multi
+            ? ()=>{ selected.has(opt)?selected.delete(opt):selected.add(opt); paint(); }
+            : ()=>{ document.body.removeChild(backdrop); resolve(opt); };
           box.appendChild(b);
         });
+        if(multi){
+          const okBtn=document.createElement('button'); okBtn.textContent='ตกลง';
+          okBtn.style.cssText='display:block;width:100%;margin-bottom:8px;padding:12px;border-radius:10px;border:none;background:#198754;color:#fff;font-weight:700;font-size:15px;cursor:pointer;';
+          okBtn.onclick=()=>{ document.body.removeChild(backdrop); resolve(options.filter(o=>selected.has(o)).join(', ')); };
+          box.appendChild(okBtn);
+        }
         const footer=document.createElement('div'); footer.style.cssText='display:flex;gap:10px;margin-top:6px;';
         const clearBtn=document.createElement('button'); clearBtn.textContent='ลบค่า (เว้นว่าง)';
         clearBtn.style.cssText='flex:1;padding:11px;border-radius:10px;border:none;background:#ffc107;color:#222;font-weight:700;cursor:pointer;';
@@ -1285,7 +1258,14 @@
         let input;
         const value=row?(row[f.key]||''):'';
         const fieldOpts = getOptionsFor(f.key);
-        if(fieldOpts){
+        if(f.key==='machine'){
+          // ponytail: input+datalist เพราะค่าอาจเป็นหลายชื่อคั่น "," ซึ่ง select แสดงไม่ได้
+          input=document.createElement('input'); input.type='text'; input.value=value;
+          input.setAttribute('list','machineList'); input.placeholder='เลือกได้มากกว่า 1 คั่นด้วย ,';
+          let dl=document.getElementById('machineList');
+          if(!dl){ dl=document.createElement('datalist'); dl.id='machineList'; document.body.appendChild(dl); }
+          dl.innerHTML=''; (fieldOpts||[]).forEach(opt=>{ const o=document.createElement('option'); o.value=opt; dl.appendChild(o); });
+        } else if(fieldOpts){
           input=document.createElement('select');
           const blank=document.createElement('option'); blank.value=''; blank.textContent='-- เลือก --'; input.appendChild(blank);
           let found=false;
@@ -1567,7 +1547,7 @@
         newValue = await editUseValue('แก้ไข: '+header, oldValue);
         if(newValue===null) return;
       } else if(opts && opts.length){
-        newValue = await pickFromList('แก้ไข: '+header, opts, oldValue);
+        newValue = await pickFromList('แก้ไข: '+header, opts, oldValue, key==='machine');
         if(newValue===null) return;
       } else {
         newValue = await editTextValue('แก้ไข: '+header, oldValue||'');
